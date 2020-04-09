@@ -1,7 +1,9 @@
 mall:
-  uploadPath: d:/GitRepository/mall-springboot/files/
+  uploadPath: ftp://39.108.136.154/files/
   username: admin
   password: Cxf181119
+
+  #  uploadPath: d:/GitRepository/mall-springboot/files/
 logging:
   level:
     root: info
