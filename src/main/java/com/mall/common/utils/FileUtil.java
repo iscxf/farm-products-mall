@@ -1,12 +1,20 @@
 package com.mall.common.utils;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
+import java.net.URL;
 import java.util.UUID;
 
 public class FileUtil {
 
 	public static void uploadFile(byte[] file, String filePath, String fileName) throws Exception {
+		if (filePath.contains("ftp:")){
+			URL url = new URL( filePath + fileName);
+			BufferedOutputStream bw = new BufferedOutputStream(url.openConnection().getOutputStream());
+			bw.write(file);
+			bw.flush();
+			bw.close();
+			return;
+		}
 		File targetFile = new File(filePath);
 		if (!targetFile.exists()) {
 			targetFile.mkdirs();
@@ -15,6 +23,7 @@ public class FileUtil {
 		out.write(file);
 		out.flush();
 		out.close();
+
 	}
 
 	public static boolean deleteFile(String fileName) {

@@ -11,7 +11,12 @@ class WebConfigurer extends WebMvcConfigurerAdapter {
 	FieldConfig fieldConfig;
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/files/**").addResourceLocations("file:///"+ fieldConfig.getUploadPath());
+		//ftp路径不用file前缀
+		if (fieldConfig.getUploadPath().contains("ftp:")) {
+			registry.addResourceHandler("/files/**").addResourceLocations(fieldConfig.getUploadPath());
+		}else {
+			registry.addResourceHandler("/files/**").addResourceLocations("file:///" + fieldConfig.getUploadPath());
+		}
 	}
 
 }
