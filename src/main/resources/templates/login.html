@@ -33,6 +33,18 @@
                        th:value="${username}"/>
                 <input type="password" name="password"
                        class="form-control pword m-b" th:value="${password}"/>
+                <div class="row">
+                    <div class="col-xs-6 pull_left">
+                        <div class="form-group">
+                            <input class="form-control" type="tel" name="verify" id="verify" placeholder="请输入验证码" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="col-xs-6 pull_left">
+                        <a href="javascript:void(0);" rel="external nofollow" title="点击更换验证码">
+                            <img style="margin-top: 12px;" id="imgVerify" src="" alt="更换验证码" height="36" width="100%" onclick="getVerify(this);">
+                        </a>
+                    </div>
+                </div>
                 <a id="login" class="btn btn-login btn-block">登录</a>
                 <p></p>
                 <p class="text-center">没有账号？点击马上<a href="/sys/user/register" style="font-size:1.2em ">注册</a></p>
@@ -59,6 +71,7 @@
         $("#login").on('click',function(){$("#signupForm").submit();});
         validateRule();
         $("body").keydown(keyDownLogon);
+        $("#imgVerify").click()
     });
 
     $.validator.setDefaults({
@@ -111,6 +124,12 @@
                 }
             }
         })
+    }
+
+    //获取验证码
+    function getVerify(obj) {
+        obj.src = "/getVerify?" + Math.random();
+        console.log(obj)
     }
 </script>
 </body>
