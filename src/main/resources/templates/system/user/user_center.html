@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+
+<head th:include="include_header :: header"></head>
+<!--<head th:include="manager/index/include_header::header"></head>-->
+<link rel="stylesheet" type="text/css" href="/css/manager/style.css">
+<header class="header" >
+    <nav th:include="include_header::nav"  class="navbar navbar-default navbar-fixed-top" id="navbar"  ></nav>
+</header>
+
+<body class="">
+<div class="wrapper wrapper-content animated fadeInRight container">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <div class="">
+                <div class="" style="padding-bottom: 0;">
+                    <h2 id="userCenterTitle" style="margin: 2.5em 0em 1em 0em">基本资料</h2>
+                    <div class="gg-nav">
+                        <ul class="nav nav-tabs" style="border: 0px solid transparent">
+                            <li onclick="change_title(this)" class="active"><a style="border: 0px solid transparent !important;" href="#basic_info" data-toggle="tab">基本资料</a></li>
+                            <!--<li><a href="#photo_info" data-toggle="tab">头像修改</a></li>-->
+                            <li onclick="change_title(this)"><a style="border: 0px solid transparent !important;" href="#pwd_info" data-toggle="tab">修改密码</a></li>
+                            <li onclick="change_title(this)"><a style="border: 0px solid transparent !important;" href="#my_question" data-toggle="tab">我的订单</a></li>
+                            <li onclick="change_title(this)"><a style="border: 0px solid transparent !important;" href="#my_collect" data-toggle="tab">我的收藏</a></li>
+                        </ul>
+                    </div>
+                    <hr style="height:1px;border:none;border-top:1px solid lightgray;" />
+                </div>
+                <div class="tab-content">
+                    <!--basic info-->
+                    <div class=" tab-pane fade in active"  id="basic_info">
+                        <form class="gg-form" role="form" id="basicInfoForm">
+                            <input name="userId" type="hidden" th:value="${user.userId}"/>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <span>用户名:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <span th:text="${user.username}"></span>
+                                    <!--<input type="text" class="form-control" id="userName" name="name" th:value="${user.username}"  placeholder="请输入姓名" />-->
+                                </div>
+                            </div>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>性别:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <div class="radio i-checks">
+                                        <label class="radio-inline" th:each="sex:${sexList}">
+                                            <input th:field="*{user.sex}" type="radio" name="sex" th:value="${sex.id}" th:text="${sex.name}"/>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>出生日期:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="laydate-icon layer-date form-control" id="birth" name="birth" th:value="${user.birth}==null?null:${#dates.format(user.birth,'yyyy-MM-dd')}" placeholder="请选择出生年月"
+                                           onclick="laydate({istime: true, format: 'YYYY-MM-DD'})" style="background-color: #fff;" readonly="readonly"/>
+                                </div>
+                            </div>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>手机:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="phone" name="mobile"  th:value="${user.mobile}" placeholder="请输入手机号" />
+                                </div>
+                            </div>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <!--<em class="gg-star">*</em>-->
+                                    <span>邮箱:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="email" name="email" th:value="${user.email}" placeholder="请输入邮箱" />
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>地址:</span>
+                                </div>
+                                <div class="gg-formDetail gg-font0" data-toggle="distpicker"  th:attr="data-province=${user.province},data-city=${user.city},data-district=${user.district}">
+                                    <div class="gg-area">
+                                        <select class="form-control" id="province" name="province">
+                                        </select>
+                                    </div>
+                                    <div class="gg-area">
+                                        <select class="form-control" id="city" name="city">
+                                        </select>
+                                    </div>
+                                    <div class="gg-area">
+                                        <select class="form-control" id="district" name="district">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <span>详细地址:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="address" name="address" th:value="${user.address}" />
+                                </div>
+                            </div>
+
+                        </form>
+                        <div class="gg-btnGroup">
+                            <button type="button" class="btn btn-sm btn-primary" id="base_save">保存</button>
+                        </div>
+                    </div>
+
+                    <!--pwd_info-->
+                    <div class=" tab-pane fade" id="pwd_info">
+                        <form class="gg-form" role="form" id="modifyPwd">
+                            <a id="logout" class="hidden" href="/logout"></a>
+                            <input type="hidden" name ="userDO.userId" th:value="${user.userId}"/>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>旧密码:</span>
+                                </div>
+                                <div class="gg-formDetail gg-dashed">
+                                    <input type="password" class="form-control gg-border0" id="pwdOld" name="pwdOld" placeholder="请输入旧密码" />
+                                    <span class="fa fa-eye gg-faeye" title="鼠标移入显示内容"></span>
+                                </div>
+                            </div>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>新密码:</span>
+                                </div>
+                                <div class="gg-formDetail gg-dashed">
+                                    <input type="password" class="form-control gg-border0" id="pwdNew" name="pwdNew" placeholder="请输入新密码" />
+                                    <span class="fa fa-eye gg-faeye" title="鼠标移入显示内容"></span>
+                                </div>
+                            </div>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>确认密码:</span>
+                                </div>
+                                <div class="gg-formDetail gg-dashed">
+                                    <input type="password" class="form-control gg-border0" id="confirm_password" name="confirm_password" placeholder="请确认密码" />
+                                    <span class="fa fa-eye gg-faeye" title="鼠标移入显示内容"></span>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="gg-btnGroup">
+                            <button type="button" class="btn btn-sm btn-primary" id="pwd_save">保存</button>
+                        </div>
+                    </div>
+
+                    <!--my_order-->
+                    <div class=" tab-pane fade" id="my_question">
+                        <div id="my_order_content">
+
+                        </div>
+                        <div class="clearfix">
+                            <p id="flagLoaded" style="display: none; text-align: center;">已全部加载</p>
+                            <a id="flagLoad" style="display: none;" class="btn btn-secondary float-right"
+                               href="javascript:void(0)" onclick="nextPage_order()">点击加载更多 &rarr;</a>
+                        </div>
+                    </div>
+
+
+                    <!--my_collect-->
+                    <div class="tab-pane fade" id="my_collect">
+                        <div id="my_collect_content">
+
+                        </div>
+                        <div class="clearfix">
+                            <p id="flagLoaded_collect" style="display: none; text-align: center;">已全部加载</p>
+                            <a id="flagLoad_collect" style="display: none;" class="btn btn-secondary float-right"
+                               href="javascript:void(0)" onclick="nextPage_collect()">点击加载更多 &rarr;</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include_header :: footer"></div>
+<script type="text/javascript" src="/js/plugins/layer/laydate/laydate.js" ></script>
+<script type="text/javascript" src="/js/plugins/distpicker/distpicker.data.min.js"></script>
+<script type="text/javascript" src="/js/plugins/distpicker/distpicker.min.js"></script>
+<script type="text/javascript" src="/js/appjs/sys/user/personal.js"></script>
+</body>
+</html>

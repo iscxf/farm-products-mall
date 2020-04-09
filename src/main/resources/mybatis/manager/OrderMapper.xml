@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mall.manager.dao.OrderDao">
+
+	<select id="get" resultType="com.mall.manager.domain.OrderDO">
+		select `id`,`account_id`,`product_id`,`price`,`quantity`,`order_amount`,`order_time`,`status`,`ship_name`,`ship_phone`,`ship_address`,`remark`,`create_time`,`update_time` from order where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.mall.manager.domain.OrderDO">
+		select `id`,`account_id`,`product_id`,`price`,`quantity`,`order_amount`,`order_time`,`status`,`ship_name`,`ship_phone`,`ship_address`,`remark`,`create_time`,`update_time` from order
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="accountId != null and accountId != ''"> and account_id = #{accountId} </if>
+		  		  <if test="productId != null and productId != ''"> and product_id = #{productId} </if>
+		  		  <if test="price != null and price != ''"> and price = #{price} </if>
+		  		  <if test="quantity != null and quantity != ''"> and quantity = #{quantity} </if>
+		  		  <if test="orderAmount != null and orderAmount != ''"> and order_amount = #{orderAmount} </if>
+		  		  <if test="orderTime != null and orderTime != ''"> and order_time = #{orderTime} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="shipName != null and shipName != ''"> and ship_name = #{shipName} </if>
+		  		  <if test="shipPhone != null and shipPhone != ''"> and ship_phone = #{shipPhone} </if>
+		  		  <if test="shipAddress != null and shipAddress != ''"> and ship_address = #{shipAddress} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from order
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="accountId != null and accountId != ''"> and account_id = #{accountId} </if>
+		  		  <if test="productId != null and productId != ''"> and product_id = #{productId} </if>
+		  		  <if test="price != null and price != ''"> and price = #{price} </if>
+		  		  <if test="quantity != null and quantity != ''"> and quantity = #{quantity} </if>
+		  		  <if test="orderAmount != null and orderAmount != ''"> and order_amount = #{orderAmount} </if>
+		  		  <if test="orderTime != null and orderTime != ''"> and order_time = #{orderTime} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="shipName != null and shipName != ''"> and ship_name = #{shipName} </if>
+		  		  <if test="shipPhone != null and shipPhone != ''"> and ship_phone = #{shipPhone} </if>
+		  		  <if test="shipAddress != null and shipAddress != ''"> and ship_address = #{shipAddress} </if>
+		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.mall.manager.domain.OrderDO" useGeneratedKeys="true" keyProperty="id">
+		insert into order
+		(
+			`account_id`, 
+			`product_id`, 
+			`price`, 
+			`quantity`, 
+			`order_amount`, 
+			`order_time`, 
+			`status`, 
+			`ship_name`, 
+			`ship_phone`, 
+			`ship_address`, 
+			`remark`
+		)
+		values
+		(
+			#{accountId}, 
+			#{productId}, 
+			#{price}, 
+			#{quantity}, 
+			#{orderAmount}, 
+			#{orderTime}, 
+			#{status}, 
+			#{shipName}, 
+			#{shipPhone}, 
+			#{shipAddress}, 
+			#{remark}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.mall.manager.domain.OrderDO">
+		update order 
+		<set>
+			<if test="accountId != null">`account_id` = #{accountId}, </if>
+			<if test="productId != null">`product_id` = #{productId}, </if>
+			<if test="price != null">`price` = #{price}, </if>
+			<if test="quantity != null">`quantity` = #{quantity}, </if>
+			<if test="orderAmount != null">`order_amount` = #{orderAmount}, </if>
+			<if test="orderTime != null">`order_time` = #{orderTime}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="shipName != null">`ship_name` = #{shipName}, </if>
+			<if test="shipPhone != null">`ship_phone` = #{shipPhone}, </if>
+			<if test="shipAddress != null">`ship_address` = #{shipAddress}, </if>
+			<if test="remark != null">`remark` = #{remark}, </if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from order where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from order where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

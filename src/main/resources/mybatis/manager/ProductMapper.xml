@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mall.manager.dao.ProductDao">
+
+	<select id="get" resultType="com.mall.manager.domain.ProductDO">
+		select `id`,`name`,`title`,`picture`,`type`,`price`,`stock`,`description`,`owner`,`farm`,`status`,`create_time`,`update_time` from product where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.mall.manager.domain.ProductDO">
+		select `id`,`name`,`title`,`picture`,`type`,`price`,`stock`,`description`,`owner`,`farm`,`status`,`create_time`,`update_time` from product
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="title != null and title != ''"> and title = #{title} </if>
+		  		  <if test="picture != null and picture != ''"> and picture = #{picture} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="price != null and price != ''"> and price = #{price} </if>
+		  		  <if test="stock != null and stock != ''"> and stock = #{stock} </if>
+		  		  <if test="description != null and description != ''"> and description = #{description} </if>
+		  		  <if test="owner != null and owner != ''"> and owner = #{owner} </if>
+		  		  <if test="farm != null and farm != ''"> and farm = #{farm} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from product
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="title != null and title != ''"> and title = #{title} </if>
+		  		  <if test="picture != null and picture != ''"> and picture = #{picture} </if>
+		  		  <if test="type != null and type != ''"> and type = #{type} </if>
+		  		  <if test="price != null and price != ''"> and price = #{price} </if>
+		  		  <if test="stock != null and stock != ''"> and stock = #{stock} </if>
+		  		  <if test="description != null and description != ''"> and description = #{description} </if>
+		  		  <if test="owner != null and owner != ''"> and owner = #{owner} </if>
+		  		  <if test="farm != null and farm != ''"> and farm = #{farm} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.mall.manager.domain.ProductDO" useGeneratedKeys="true" keyProperty="id">
+		insert into product
+		(
+			`name`, 
+			`title`, 
+			`picture`, 
+			`type`, 
+			`price`, 
+			`stock`, 
+			`description`, 
+			`owner`, 
+			`farm`, 
+			`status`
+		)
+		values
+		(
+			#{name}, 
+			#{title}, 
+			#{picture}, 
+			#{type}, 
+			#{price}, 
+			#{stock}, 
+			#{description}, 
+			#{owner}, 
+			#{farm}, 
+			#{status}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.mall.manager.domain.ProductDO">
+		update product 
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="picture != null">`picture` = #{picture}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="price != null">`price` = #{price}, </if>
+			<if test="stock != null">`stock` = #{stock}, </if>
+			<if test="description != null">`description` = #{description}, </if>
+			<if test="owner != null">`owner` = #{owner}, </if>
+			<if test="farm != null">`farm` = #{farm}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from product where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from product where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

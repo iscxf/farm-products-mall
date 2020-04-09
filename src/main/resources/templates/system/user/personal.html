@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<style>
+
+</style>
+<head th:include="system/user/include :: header"></head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="ibox">
+                <div class="ibox-title" style="padding-bottom: 0;">
+                    <h3 class="text-center">个人资料中心</h3>
+                    <div class="gg-nav">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#basic_info" data-toggle="tab">基本资料</a></li>
+                            <li><a href="#pwd_info" data-toggle="tab">修改密码</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <!--basic info-->
+                    <div class="ibox-content tab-pane fade in active"  id="basic_info">
+                        <form class="gg-form" role="form" id="basicInfoForm">
+                            <input name="userId" type="hidden" th:value="${user.userId}"/>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>姓名:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="userName" name="name" th:value="${user.name}"  placeholder="请输入姓名" />
+                                </div>
+                            </div>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>性别:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <div class="radio i-checks">
+                                        <label class="radio-inline" th:each="sex:${sexList}">
+                                            <input th:field="*{user.sex}" type="radio" name="sex" th:value="${sex.id}" th:text="${sex.name}"/>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>身份证号码:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="identity" name="identity"  th:value="${user.identity}" placeholder="请输入手机号" />
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>出生日期:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="laydate-icon layer-date form-control" id="birth" name="birth" th:value="${user.birth}==null?null:${#dates.format(user.birth,'yyyy-MM-dd')}" placeholder="请选择出生年月"
+                                           onclick="laydate({istime: true, format: 'YYYY-MM-DD'})" style="background-color: #fff;" readonly="readonly"/>
+                                </div>
+                            </div>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>手机:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="phone" name="mobile"  th:value="${user.mobile}" placeholder="请输入手机号" />
+                                </div>
+                            </div>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <!--<em class="gg-star">*</em>-->
+                                    <span>邮箱:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="email" name="email" th:value="${user.email}" placeholder="请输入邮箱" />
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>地址:</span>
+                                </div>
+                                <div class="gg-formDetail gg-font0" data-toggle="distpicker"  th:attr="data-province=${user.province},data-city=${user.city},data-district=${user.district}">
+                                    <div class="gg-area">
+                                        <select class="form-control" id="province" name="province">
+                                        </select>
+                                    </div>
+                                    <div class="gg-area">
+                                        <select class="form-control" id="city" name="city">
+                                        </select>
+                                    </div>
+                                    <div class="gg-area">
+                                        <select class="form-control" id="district" name="district">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <span>详细地址:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="address" name="address" th:value="${user.address}" />
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>农场名称:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="storeName" name="storeName" th:value="${user.storeName}" />
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <span>农场规模:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <select name="scope" id="scope" class="form-control">
+                                        <option ></option>
+                                        <option value="0" th:field="*{user.scope}">小型</option>
+                                        <option value="1" th:field="*{user.scope}">中型</option>
+                                        <option value="2" th:field="*{user.scope}">大型</option>
+                                        <option value="3" th:field="*{user.scope}">特大型</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>农场简介:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <!--<input type="text" class="form-control" id="introduction" name="introduction" th:value="${user.introduction}" />-->
+                                    <textarea class="form-control" id="introduction" name="introduction"  th:text="${user.introduction}"  rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>农场地址:</span>
+                                </div>
+                                <div class="gg-formDetail gg-font0" data-toggle="distpicker"  th:attr="data-province=${user.storeProvince},data-city=${user.storeCity},data-district=${user.storeDistrict}">
+                                    <div class="gg-area">
+                                        <select class="form-control" id="storeProvince" name="storeProvince">
+                                        </select>
+                                    </div>
+                                    <div class="gg-area">
+                                        <select class="form-control" id="storeCity" name="storeCity">
+                                        </select>
+                                    </div>
+                                    <div class="gg-area">
+                                        <select class="form-control" id="storeDistrict" name="storeDistrict">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <span>农场详细地址:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="storeAddress" name="storeAddress" th:value="${user.storeAddress}" />
+                                </div>
+                            </div>
+
+
+                        </form>
+                        <div class="gg-btnGroup">
+                            <button type="button" class="btn btn-sm btn-primary" id="base_save">保存</button>
+                        </div>
+                    </div>
+
+                    <!--pwd_info-->
+                    <div class="ibox-content tab-pane fade" id="pwd_info">
+                        <form class="gg-form" role="form" id="modifyPwd">
+                            <a id="logout" class="hidden" href="/logout"></a>
+                            <input type="hidden" name ="userDO.userId" th:value="${user.userId}"/>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>旧密码:</span>
+                                </div>
+                                <div class="gg-formDetail gg-dashed">
+                                    <input type="password" class="form-control gg-border0" id="pwdOld" name="pwdOld" placeholder="请输入旧密码" />
+                                    <span class="fa fa-eye gg-faeye" title="鼠标移入显示内容"><span>
+                                </div>
+                            </div>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>新密码:</span>
+                                </div>
+                                <div class="gg-formDetail gg-dashed">
+                                    <input type="password" class="form-control gg-border0" id="pwdNew" name="pwdNew" placeholder="请输入新密码" />
+                                    <span class="fa fa-eye gg-faeye" title="鼠标移入显示内容"></span>
+                                </div>
+                            </div>
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>确认密码:</span>
+                                </div>
+                                <div class="gg-formDetail gg-dashed">
+                                    <input type="password" class="form-control gg-border0" id="confirm_password" name="confirm_password" placeholder="请确认密码" />
+                                    <span class="fa fa-eye gg-faeye" title="鼠标移入显示内容"></span>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="gg-btnGroup">
+                            <button type="button" class="btn btn-sm btn-primary" id="pwd_save">保存</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="system/user/include :: footer"></div>
+<script type="text/javascript" src="/js/appjs/sys/user/personal.js"></script>
+</body>
+</html>

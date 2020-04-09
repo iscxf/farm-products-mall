@@ -1,0 +1,223 @@
+<head th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml">
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>农产品商城</title>
+        <link rel="shortcut icon" href="/js/xiaodabang_title_logo.ico">
+
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <!--<link href="/css/blog/clean-blog.css" rel="stylesheet">-->
+        <link rel="stylesheet" href="/css/animate.css" />
+        <link rel="stylesheet" href="/css/plugins/iCheck/custom.css" />
+        <link rel="stylesheet" href="/css/plugins/cropper/cropper.css" />
+        <link rel="stylesheet" href="/js/plugins/layer/laydate/skins/default/laydate.css" />
+        <link rel="stylesheet" href="/css/gg-bootdo.css" />
+	<style type="text/css">
+		@media (max-width:768px){
+			.side{ display:none;  }
+		}
+		@media (min-width:768px){
+			.side{ display:block;  }
+		}
+		.side{
+			position: fixed;
+			width: 50px;
+			right: 5%;
+			bottom: 15%;
+			z-index: 100;
+		}
+		.side ul{
+			list-style:none;
+		}
+		.side ul li {
+			width: 35px;
+			height: 35px;
+			float: left;
+			position: relative;
+			margin-top: 9px;
+		}
+		.side ul li .qqbdimg {
+			padding: 7px;
+			margin-top: 5px;
+			margin-bottom: 1px;
+			/* margin-left: 22px; */
+			position: absolute;
+			width: 53px;
+			height: 54px;
+			/* margin-left: 9px; */
+			bottom: 0;
+			right: -7px;
+			transition: all 0.3s;
+			background: #fff;
+			opacity: 0;
+			filter: Alpha(opacity=80);
+			color: #fff;
+			font: 14px/54px "微软雅黑";
+			overflow: hidden;
+		}
+		.side ul li .qqbdimg:hover{
+			overflow:hidden;
+			padding: 7px;
+			margin-top: 5px;
+			width:124px;
+			height:124px;
+			opacity:1;
+			z-index:100;
+			right:0;
+			background:rgb(142, 142, 142);
+		}
+		.side ul li img {
+			width: 100%;
+			height: 100%;
+		}
+		.side ul li .sidetop {
+			height: 100%;
+			display: block;
+			background: #2f4050;
+			padding: 2px 0px;
+			text-align: center;
+			color: #fff;
+			border-radius: 50%;
+			opacity: .5;
+		}
+		footer {
+			padding: 50px 0 65px;
+		}
+		footer .list-inline {
+			margin: 0;
+			padding: 0;
+		}
+		footer .copyright {
+			font-size: 14px;
+			text-align: center;
+			margin-bottom: 0;
+		}
+	</style>
+</head>
+
+<nav th:fragment="nav" class="navbar navbar-default" id="navbar" >
+	<div class="container">
+
+		<div class="navbar-header" style=" display:inline">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar" aria-expanded="false">
+				<span class="sr-only"></span>
+				<span class="icon-bar"></span> <span class="icon-bar"></span>
+				<span class="icon-bar"></span> </button>
+			<h1 class="logo hvr-bounce-in">
+				<a href="/mall/index" title="农产品商城">
+					<img src="/img/farm_mall_logo.jpg" alt="农产品商城" style="width: 10%;height: 10%">
+				</a>
+			</h1>
+
+		</div>
+		<div class="collapse navbar-collapse" id="header-navbar">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<form class="navbar-form form-inline" >
+						<div class="input-group">
+							<input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字" autocomplete="off">
+							<span class="input-group-btn">
+							<button class="btn btn-default btn-search" name="search" type="submit" >搜索</button>
+						</span>
+						</div>
+					</form>
+				</li>
+				<!--<li><a href="/manager/product/open/1">关于</a></li>-->
+				<li th:if="${session.username} == null"><a href="/login">登录</a></li>
+				<!--<li th:if="${session.username} != null"><a href="/"><span id="username" th:text="${session.username}"></span></a></li>-->
+				<!--<li th:if="${session.username} != null" class="nav-item">-->
+					<!--<a class="nav-link" href="/oa/notify/usernotify">消息<span class="badge" style="background-color:#ff514c;margin-top: -2em" id="txtHint_total_message">{{total}}</span></a>-->
+
+				<!--</li>-->
+				<li th:if="${session.username} != null" class="dropdown nav-item">
+					<a href="#" class="nav-link" data-toggle="dropdown" aria-expanded="false">
+						<span id="username" th:text="${session.username}"></span>
+						<span class="fa fa-ellipsis-v"></span>
+					</a>
+					<ul class="dropdown-menu text-center" style="min-width: 6em">
+						<li th:if="${session.username != null && session.role != 2} " ><a href="/index"><span class="fa fa-cogs"></span>后台管理</a></li>
+						<li><a href="/sys/user/usercenter"><span class="fa fa-user-o"></span>个人中心</a></li>
+						<li><a href="/logout"><span class="fa fa-sign-out"></span>退出登录</a></li>
+					</ul>
+				</li>
+
+
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<div id="iCenter" style="display: none;"></div>
+
+<div th:fragment="footer">
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+					<p class="copyright text-muted">Copyright  &copy; 2020 mall.com 农产品商城 </p>
+					<p class="copyright text-muted"><a rel="nofollow" href="http://www.beian.miit.gov.cn" target="_blank">粤ICP备18042987号</a></p>
+
+				</div>
+			</div>
+		</div>
+	</footer>
+	<div class="side" >
+		<ul>
+			<li>
+				<a class="sidetop" href="javascript:scroll(0,0)" title="返回顶部"><i
+					class="fa fa-arrow-up"></i></a>
+					
+			</li>
+		</ul>
+	</div>
+	<script src="/js/jquery.min.js?v=2.1.4"></script>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/plugins/layer/layer.js"></script>
+	<script src="/js/ajax-util.js"></script>
+	<script src="/js/appjs/blog/clean-blog.min.js"></script>
+	<script src="/js/plugins/summernote/summernote.min.js"></script>
+	<script src="/js/plugins/summernote/summernote-zh-CN.js"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/js/plugins/iCheck/icheck.min.js"></script>
+    <script type="text/javascript" src="/js/plugins/cropper/cropper.min.js"></script>
+    <script type="text/javascript" src="/js/plugins/layer/laydate/laydate.js" ></script>
+    <script type="text/javascript" src="/js/plugins/distpicker/distpicker.data.min.js"></script>
+    <script type="text/javascript" src="/js/plugins/distpicker/distpicker.min.js"></script>
+    <script type="text/javascript" src="/js/appjs/sys/user/gg-bootdo.js"></script>
+
+	<!--通知的js-->
+	<!-- 自定义js -->
+	<!--<script src="/js/app.js?v=4.1.0"></script>-->
+	<script type="text/javascript" src="/js/contabs.js"></script>
+	<!-- 第三方插件 -->
+	<!--<script src="/js/plugins/pace/pace.min.js"></script>-->
+	<!-- vue -->
+	<script type="text/javascript" src="/js/vue.min.js"></script>
+
+	<script type="text/javascript">
+        var wrapper = new Vue({
+            el: '#header-navbar',
+            data: {
+                total: '',
+                rows: ''
+            },
+                personal: function () {
+                    layer.open({
+                        type: 2,
+                        title: '个人设置',
+                        maxmin: true,
+                        shadeClose: false,
+                        area: ['800px', '600px'],
+                        content: '/sys/user/personal'
+                    });
+                }
+        });
+
+	</script>
+</div>
+

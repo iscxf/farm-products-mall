@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="manager/index/include_header::header"></head>
+<link rel="stylesheet" type="text/css" href="/css/manager/style.css">
+
+<body>
+
+	<header class="header" >
+        <nav th:include="include_header::nav"  class="navbar navbar-default navbar-fixed-top" id="navbar" style="margin-bottom: 5em" ></nav>
+	</header>
+
+    <section class="container" style="margin-top: 5em">
+        <div class="content-wrap">
+            <div class="">
+                <header class="article-header">
+                    <h1 class="article-title" th:text="${productDO.name}"><a href="#" title="" >商品</a></h1>
+                </header>
+
+            </div>
+            <div class="col-sm-12">
+                <div class="col-sm-6">
+                    <img th:src="@{{fileUrl}(fileUrl=${productDO.picture})}" style="max-width: 25em;max-height: 30em" >
+                </div>
+                <div class="col-sm-6">
+                   <h4 th:text="${productDO.title}"></h4>
+
+                    <div style="margin-top: 2em">
+                        <h3>价格：</h3><h3 class="text-danger" th:text="${productDO.price}"></h3>
+                    </div>
+                    <div>
+                        <button class="btn btn-danger">申领</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 2em">
+            <h1 class="article-title text-center" >商品详情</h1>
+            <article class="article-content">
+                <div id="content" th:utext="${productDO.description}"></div>
+                <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a></div>
+            </article>
+        </div>
+    </section>
+
+	</body>
+	<div th:include="include_header::footer"></div>
+
+</html>

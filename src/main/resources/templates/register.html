@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="system/user/include :: header"></head>
+<style type="text/css">
+		*{font-family:"微软雅黑","黑体","宋体";color:#333;}
+		a{color:#069;}
+		body{margin:0;padding:0;background-image:url(/img/background1.jpg)}
+		.content{}
+		.form_top{min-height: 3em;background-color: #fff;border-radius: 10px 10px 0 0;}
+		.form_div{background-color: #eee;border-radius: 0 0 10px 10px;padding-bottom: 15px;}
+		.line{margin:0 5% 1% 5%;}
+		#line_name{padding-top: 20px;}
+		.info label{font-size:1.2em;line-height:2em;color:#333;padding:0;}
+		.info span{font-size:0.5em;line-height:2em;color:#666;}
+		.input input{font-size:1.1em;line-height:2em; height:2.5em; padding:1em 0 1em 1em;border-radius:10px;}
+		.error,.corect{height:1em;position:absolute;top:1em;right:5%;background: no-repeat 0 -20px;}
+		.error span{display:block;position:absolute;top:1.8em;right:5%;background:#fcc;border:1px solid #f33;font-size:12px;line-height:1.2em;color:#600;padding:6px 10px 4px 10px;border-radius:5px;opacity:.8;white-space:nowrap;overflow:hidden;}
+		.corect{background-position:0 0;}
+		.corect span{display:none;}
+		.none{display:none;}
+</style>
+<body>
+	<div class="container text-center text-white" style="margin-top: 50px ;margin-bottom: 30px">
+		<h1 class="" style="color:white">用户注册</h1>
+	</div>
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-sm-8 col-sm-offset-2">
+				<div class="form_top text-center">
+					<img src="/img/farm_mall_logo.jpg" style="margin-top: 1em;width: 8em;height: 8em">
+				</div>
+				<div class="form_div">
+					<form id="registerForm">
+						<div class="form-group row line" id="line_name">
+							<div class="info col-sm-2 text-center">
+								<label for="name" class="col-form-label">用户名</label></br>
+								<span class="tips">最多32个字符</span>
+							</div>
+							<div class="col-sm-10 input">
+								<input class="form-control" type="text" name="username" id="name" placeholder="校大帮" onblur="v_name();" onkeyup="v_name();" >
+								<div class="none"><span></span></div>
+							</div>
+						</div>
+						<div class="form-group row line" id="line_password">
+							<div class="info col-sm-2 text-center">
+								<label for="password" class="col-form-label">密码</label></br>
+								<span class="tips">6至16个字符</span>
+							</div>
+							<div class="col-sm-10 input">
+								<input class="form-control" type="password" name="password" id="password" placeholder="Password" onblur="v_password();" onkeyup="v_password();"  >
+								<div class="none"><span></span></div>
+							</div>
+						</div>
+						<div class="form-group row line" id="line_repeat">
+							<div class="info col-sm-2 text-center">
+								<label for="repeat" class="col-form-label">确认密码</label></br>
+								<span class="tips">再次输入密码</span>
+							</div>
+							<div class="col-sm-10 input">
+								<input class="form-control" type="password" name="repeat" id="repeat" placeholder="Password" onblur="v_repeat();" onkeyup="v_repeat();"  >
+								<div class="none"><span></span></div>
+							</div>
+						</div>
+						<fieldset class="form-group">
+							<div class="row line" id="line_sex">
+								<div class="info col-sm-2 text-center">
+									<label for="repeat" class="col-form-label">性别</label></br>
+									<span class="tips">单选或不选</span>
+								</div>
+								<div class="col-sm-10">
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="sex" id="sex_1" value="96">
+										<label class="form-check-label" for="sex_1">
+											男
+										</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="sex" id="sex_2" value="97">
+										<label class="form-check-label" for="sex_2">
+											女
+										</label>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+						<div class="form-group row line" id="line_entryDate">
+							<div class="info col-sm-2 text-center">
+								<label for="name" class="col-form-label">出生日期</label></br>
+								<span class="tips">选择出生日期</span>
+							</div>
+							<div class="col-sm-10 input">
+								<input class="form-control" type="date" name="birth" id="birth" onblur="v_name();" onkeyup="v_name();" >
+								<div class="none"><span></span></div>
+							</div>
+						</div>
+						<div class="form-group row line" id="line_mobile">
+							<div class="info col-sm-2 text-center">
+								<label for="name" class="col-form-label">手机号</label></br>
+								<span class="tips">11位手机号</span>
+							</div>
+							<div class="col-sm-10 input">
+								<input class="form-control" type="text" name="mobile" id="mobile" placeholder="13800000000" onblur="v_name();" onkeyup="v_name();" >
+								<div class="none"><span></span></div>
+							</div>
+						</div>
+						<div class="form-group row line" id="line_email">
+							<div class="info col-sm-2 text-center">
+								<label for="name" class="col-form-label">邮箱</label></br>
+								<span class="tips">填写正确的邮箱格式</span>
+							</div>
+							<div class="col-sm-10 input">
+								<input class="form-control" type="text" name="email" id="email" placeholder="forExample@feizone.com" onblur="v_name();" onkeyup="v_name();" >
+								<div class="none"><span></span></div>
+							</div>
+						</div>
+
+
+						<div class="form-group row line" >
+							<div class="info col-sm-2 text-center">
+								<label for="name" class="col-form-label">地址</label></br>
+								<span class="tips">选择所在地址</span>
+							</div>
+							<div class="col-sm-10 input">
+								<div class="gg-formDetail gg-font0" data-toggle="distpicker">
+									<div class="gg-area">
+										<select class="form-control" id="province" name="province">
+										</select>
+									</div>
+									<div class="gg-area">
+										<select class="form-control" id="city" name="city">
+										</select>
+									</div>
+									<div class="gg-area">
+										<select class="form-control" id="district" name="district">
+										</select>
+									</div>
+								</div>
+								<div class="none"><span></span></div>
+							</div>
+						</div>
+
+						<div class="form-group row" >
+							<div class="col-sm-12 text-center">
+								<button type="button" class="btn btn-primary" id="mysubmit" onclick="saveRegister()" disabled="disabled"/>完成注册</button>
+								<div>已经拥有账号，<a href="/login">直接登录</a></div>
+								<div>我要注册成为农场商家，<a href="/sys/user/merchantRegister">注册商家</a></div>
+								<div>忘记密码，<a href="#" onclick="alert('请联系管理员')">请联系管理员</a></div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+
+	</div>
+	<div th:include="system/user/include :: footer"></div>
+	<script type="text/javascript" src="/js/appjs/sys/user/personal.js"></script>
+	<script type="text/javascript" src="/js/appjs/sys/user/register.js"></script>
+</body>
+</html>
+
