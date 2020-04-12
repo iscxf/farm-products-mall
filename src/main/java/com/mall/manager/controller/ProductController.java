@@ -62,7 +62,7 @@ public class ProductController extends BaseController {
 	@GetMapping("/mall/list")
 //	@RequiresPermissions("manager:product:product")
 	public PageUtils mallList(@RequestParam Map<String, Object> params){
-		//查询列表数据
+		//查询列表数据 修改测试
         Query query = new Query(params);
 		List<ProductDO> productList = productService.list(query);
 		int total = productService.count(query);

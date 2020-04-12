@@ -1,24 +1,18 @@
 package com.mall.manager.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import com.mall.common.utils.PageUtils;
+import com.mall.common.utils.Query;
+import com.mall.common.utils.Result;
+import com.mall.manager.domain.OrderDO;
+import com.mall.manager.service.OrderService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.mall.manager.domain.OrderDO;
-import com.mall.manager.service.OrderService;
-import com.mall.common.utils.PageUtils;
-import com.mall.common.utils.Query;
-import com.mall.common.utils.Result;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -44,7 +38,7 @@ public class OrderController {
 	@GetMapping("/list")
 //	@RequiresPermissions("manager:order:order")
 	public PageUtils list(@RequestParam Map<String, Object> params){
-		//查询列表数据
+		//查询列表数据  dfdsgfdg
         Query query = new Query(params);
 		List<OrderDO> orderList = orderService.list(query);
 		int total = orderService.count(query);

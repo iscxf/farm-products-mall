@@ -4,11 +4,11 @@
 <mapper namespace="com.mall.manager.dao.OrderDao">
 
 	<select id="get" resultType="com.mall.manager.domain.OrderDO">
-		select `id`,`account_id`,`product_id`,`price`,`quantity`,`order_amount`,`order_time`,`status`,`ship_name`,`ship_phone`,`ship_address`,`remark`,`create_time`,`update_time` from order where id = #{value}
+		select `id`,`account_id`,`product_id`,`price`,`quantity`,`order_amount`,`order_time`,`status`,`ship_name`,`ship_phone`,`ship_address`,`remark`,`create_time`,`update_time` from `order` where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.mall.manager.domain.OrderDO">
-		select `id`,`account_id`,`product_id`,`price`,`quantity`,`order_amount`,`order_time`,`status`,`ship_name`,`ship_phone`,`ship_address`,`remark`,`create_time`,`update_time` from order
+		select `id`,`account_id`,`product_id`,`price`,`quantity`,`order_amount`,`order_time`,`status`,`ship_name`,`ship_phone`,`ship_address`,`remark`,`create_time`,`update_time` from `order`
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="accountId != null and accountId != ''"> and account_id = #{accountId} </if>
@@ -39,7 +39,7 @@
 	</select>
 	
  	<select id="count" resultType="int">
-		select count(*) from order
+		select count(*) from `order`
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="accountId != null and accountId != ''"> and account_id = #{accountId} </if>
@@ -59,7 +59,7 @@
 	</select>
 	 
 	<insert id="save" parameterType="com.mall.manager.domain.OrderDO" useGeneratedKeys="true" keyProperty="id">
-		insert into order
+		insert into `order`
 		(
 			`account_id`, 
 			`product_id`, 
@@ -90,7 +90,7 @@
 	</insert>
 	 
 	<update id="update" parameterType="com.mall.manager.domain.OrderDO">
-		update order 
+		update `order`
 		<set>
 			<if test="accountId != null">`account_id` = #{accountId}, </if>
 			<if test="productId != null">`product_id` = #{productId}, </if>
@@ -108,11 +108,11 @@
 	</update>
 	
 	<delete id="remove">
-		delete from order where id = #{value}
+		delete from `order` where id = #{value}
 	</delete>
 	
 	<delete id="batchRemove">
-		delete from order where id in 
+		delete from `order` where id in
 		<foreach item="id" collection="array" open="(" separator="," close=")">
 			#{id}
 		</foreach>
