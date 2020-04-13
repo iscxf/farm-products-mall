@@ -24,6 +24,8 @@ public class OrderProductGrowthDO implements Serializable {
 	private Integer orderId;
 	//产品id
 	private Integer productId;
+    //产品名称
+    private String productName;
 	//生长情况描述
 	private String description;
 	//图片地址

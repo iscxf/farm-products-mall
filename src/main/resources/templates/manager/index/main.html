@@ -111,7 +111,7 @@
 	</body>
 	<div th:include="include_header::footer"></div>
 	<script type="text/javascript">
-		var limit = 10;
+		var limit = 12;
 		var currentPage = 0;
 		var total;
 
@@ -126,7 +126,7 @@
         }
         function bindList(offset) {
         	$.ajax({
-        			url : '/manager/product/mall/list?limit=10&offset=' + offset,
+        			url : '/manager/product/mall/list?limit=12&offset=' + offset,
         			method : 'get',
         			dataType : 'json',
         			success : function(data) {
@@ -136,20 +136,11 @@
         				for (i = 0; i < rows.length; i++) {
                             var title = rows[i].title;        //执行替换成空字符
                             var product = JSON.stringify(rows[i]).replace(/\"/g, "'");
-                            // htmlText += '<div  style="height: 25em" class="col-md-3">\n' +
-                            //     '                            <div>\n' +
-                            //     '                                <img src="/img/yazi1.jpg"  class="text-center center-block" style="width: 12em;height: 16em" >\n' +
-                            //     '                                <div>\n' +
-                            //     '                                    <a><h4>养殖基地500亩水库供货充足，可日供货10000羽</h4></a>\n' +
-                            //     '                                    <label>剩余数量：10000</label>\n' +
-                            //     '                                    <button class="btn-danger pull-right">申领</button>\n' +
-                            //     '                                </div>\n' +
-                            //     '                            </div>\n' +
-                            //     '                        </div>';
-        					htmlText += '<div  style="height: 25em" class="col-md-3"> <div>';
+        					htmlText += '<div  style="height: 23em" class="col-md-3"> <div>';
         					htmlText += '<img src="'+ rows[i].picture +'"  class="text-center center-block" style="width: 12em;height: 16em" >' ;
-        					htmlText += '<div><a class="note" href="/manager/product/open/' + rows[i].id + '"  style="text-overflow: ellipsis;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">' + title + '</a>';
-                            htmlText += '<label>剩余数量：' + rows[i].stock + '</label><button class="btn-danger pull-right" onclick="claimProduct(' + product + ')">申领</button></div>';
+        					htmlText += '<div><a class="note" href="/manager/product/open/' + rows[i].id + '"  style="text-overflow: ellipsis;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;height: 3em">' + title + '</a>';
+                            // htmlText += '<label>剩余数量：' + rows[i].stock + '</label><button class="btn-danger pull-right" onclick="claimProduct(' + product + ')">申领</button></div>';
+                            htmlText += '<label>剩余数量：' + rows[i].stock + '</label><button class="btn-danger pull-right"><a href="/manager/order/claim/' + rows[i].id + '">申领</a></button></div>';
                             htmlText += '</div></div>';
         				}
 

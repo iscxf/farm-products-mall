@@ -12,7 +12,7 @@
 							<button shiro:hasPermission="manager:orderProductGrowth:add" type="button" class="btn  btn-primary" onclick="add()">
 								<i class="fa fa-plus" aria-hidden="true"></i>添加
 							</button>
-							<button shiro:hasPermission="manager:orderProductGrowth:batchRemove" type="button" class="btn  btn-danger"
+							<button shiro:hasPermission="manager:order:add" type="button" class="btn  btn-danger"
 								onclick="batchRemove()">
 								<i class="fa fa-trash" aria-hidden="true"></i>删除
 							</button>
@@ -39,17 +39,17 @@
 				var s_resetPwd_h = 'hidden';
 			</script>
 		</div>
-		<div shiro:hasPermission="manager:orderProductGrowth:edit">
+		<div shiro:hasPermission="manager:order:add">
 			<script type="text/javascript">
 				s_edit_h = '';
 			</script>
 		</div>
-		<div shiro:hasPermission="manager:orderProductGrowth:remove">
+		<div shiro:hasPermission="manager:order:add">
 			<script type="text/javascript">
 				var s_remove_h = '';
 			</script>
 		</div>
-		<div shiro:hasPermission="manager:orderProductGrowth:resetPwd">
+		<div shiro:hasPermission="manager:order:add">
 			<script type="text/javascript">
 				var s_resetPwd_h = '';
 			</script>

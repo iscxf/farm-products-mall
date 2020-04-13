@@ -3,6 +3,9 @@ package com.mall.manager.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.mall.common.controller.BaseController;
+import com.mall.manager.domain.OrderDO;
+import com.mall.manager.service.OrderService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,19 +33,29 @@ import com.mall.common.utils.Result;
  
 @Controller
 @RequestMapping("/manager/orderProductGrowth")
-public class OrderProductGrowthController {
+public class OrderProductGrowthController extends BaseController {
 	@Autowired
 	private OrderProductGrowthService orderProductGrowthService;
+	@Autowired
+	private OrderService orderService;
+
 	
 	@GetMapping()
-	@RequiresPermissions("manager:orderProductGrowth:orderProductGrowth")
+	@RequiresPermissions("manager:order:add")
 	String OrderProductGrowth(){
 	    return "manager/orderProductGrowth/orderProductGrowth";
 	}
-	
+
+	@GetMapping("/{orderId}")
+	@RequiresPermissions("manager:order:add")
+	String getOrderProductGrowthByOrderId(@PathVariable("orderId") Integer orderId, @RequestParam Map<String, Object> params, Model model){
+		model.addAttribute("orderId", orderId);
+		return "manager/orderProductGrowth/userOrderProductGrowth";
+	}
+
+
 	@ResponseBody
 	@GetMapping("/list")
-	@RequiresPermissions("manager:orderProductGrowth:orderProductGrowth")
 	public PageUtils list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
@@ -51,15 +64,29 @@ public class OrderProductGrowthController {
 		PageUtils pageUtils = new PageUtils(orderProductGrowthList, total);
 		return pageUtils;
 	}
+
+	@ResponseBody
+	@GetMapping("/list/{orderId}")
+	public PageUtils listByOrderId(@PathVariable("orderId") Integer orderId, @RequestParam Map<String, Object> params, Model model){
+		params.put("orderId",orderId);
+		//查询列表数据
+		Query query = new Query(params);
+		List<OrderProductGrowthDO> orderProductGrowthList = orderProductGrowthService.list(query);
+		int total = orderProductGrowthService.count(query);
+		PageUtils pageUtils = new PageUtils(orderProductGrowthList, total);
+		return pageUtils;
+	}
 	
-	@GetMapping("/add")
-	@RequiresPermissions("manager:orderProductGrowth:add")
-	String add(){
+	@GetMapping("/add/{id}")
+	@RequiresPermissions("manager:order:add")
+	String add(@PathVariable("id") Integer orderId, Model model){
+		OrderDO order = orderService.get(orderId);
+		model.addAttribute("order", order);
 	    return "manager/orderProductGrowth/add";
 	}
 
 	@GetMapping("/edit/{id}")
-	@RequiresPermissions("manager:orderProductGrowth:edit")
+	@RequiresPermissions("manager:order:add")
 	String edit(@PathVariable("id") Integer id,Model model){
 		OrderProductGrowthDO orderProductGrowth = orderProductGrowthService.get(id);
 		model.addAttribute("orderProductGrowth", orderProductGrowth);
@@ -71,7 +98,7 @@ public class OrderProductGrowthController {
 	 */
 	@ResponseBody
 	@PostMapping("/save")
-	@RequiresPermissions("manager:orderProductGrowth:add")
+	@RequiresPermissions("manager:order:add")
 	public Result save( OrderProductGrowthDO orderProductGrowth){
 		if(orderProductGrowthService.save(orderProductGrowth)>0){
 			return Result.ok();
@@ -83,7 +110,7 @@ public class OrderProductGrowthController {
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	@RequiresPermissions("manager:orderProductGrowth:edit")
+	@RequiresPermissions("manager:order:add")
 	public Result update( OrderProductGrowthDO orderProductGrowth){
 		orderProductGrowthService.update(orderProductGrowth);
 		return Result.ok();
@@ -94,7 +121,6 @@ public class OrderProductGrowthController {
 	 */
 	@PostMapping( "/remove")
 	@ResponseBody
-	@RequiresPermissions("manager:orderProductGrowth:remove")
 	public Result remove( Integer id){
 		if(orderProductGrowthService.remove(id)>0){
 		return Result.ok();
@@ -107,7 +133,6 @@ public class OrderProductGrowthController {
 	 */
 	@PostMapping( "/batchRemove")
 	@ResponseBody
-	@RequiresPermissions("manager:orderProductGrowth:batchRemove")
 	public Result remove(@RequestParam("ids[]") Integer[] ids){
 		orderProductGrowthService.batchRemove(ids);
 		return Result.ok();

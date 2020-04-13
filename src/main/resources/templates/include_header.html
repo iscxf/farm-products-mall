@@ -14,6 +14,11 @@
         <link rel="stylesheet" href="/css/plugins/cropper/cropper.css" />
         <link rel="stylesheet" href="/js/plugins/layer/laydate/skins/default/laydate.css" />
         <link rel="stylesheet" href="/css/gg-bootdo.css" />
+		<link href="/css/font-awesome.css?v=4.4.0"
+			  th:href="@{/css/font-awesome.css?v=4.4.0}" rel="stylesheet">
+		<link href="/css/plugins/bootstrap-table/bootstrap-table.min.css"
+			  th:href="@{/css/plugins/bootstrap-table/bootstrap-table.min.css}"
+			  rel="stylesheet">
 	<style type="text/css">
 		@media (max-width:768px){
 			.side{ display:none;  }
@@ -126,11 +131,7 @@
 				</li>
 				<!--<li><a href="/manager/product/open/1">关于</a></li>-->
 				<li th:if="${session.username} == null"><a href="/login">登录</a></li>
-				<!--<li th:if="${session.username} != null"><a href="/"><span id="username" th:text="${session.username}"></span></a></li>-->
-				<!--<li th:if="${session.username} != null" class="nav-item">-->
-					<!--<a class="nav-link" href="/oa/notify/usernotify">消息<span class="badge" style="background-color:#ff514c;margin-top: -2em" id="txtHint_total_message">{{total}}</span></a>-->
 
-				<!--</li>-->
 				<li th:if="${session.username} != null" class="dropdown nav-item">
 					<a href="#" class="nav-link" data-toggle="dropdown" aria-expanded="false">
 						<span id="username" th:text="${session.username}"></span>
@@ -157,8 +158,6 @@
 			<div class="row">
 				<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 					<p class="copyright text-muted">Copyright  &copy; 2020 mall.com 农产品商城 </p>
-					<p class="copyright text-muted"><a rel="nofollow" href="http://www.beian.miit.gov.cn" target="_blank">粤ICP备18042987号</a></p>
-
 				</div>
 			</div>
 		</div>
@@ -174,7 +173,13 @@
 	</div>
 	<script src="/js/jquery.min.js?v=2.1.4"></script>
 	<script src="/js/jquery.min.js"></script>
-	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+	<script src="/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+	<script
+			src="/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+
 	<script src="/js/plugins/layer/layer.js"></script>
 	<script src="/js/ajax-util.js"></script>
 	<script src="/js/appjs/blog/clean-blog.min.js"></script>

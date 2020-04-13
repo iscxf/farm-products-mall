@@ -1,15 +1,16 @@
 
 var prefix = "/manager/orderProductGrowth"
 $(function() {
-	load();
+	var orderId = $("#orderId").val();
+	load(orderId);
 });
 
-function load() {
+function load(orderId) {
 	$('#exampleTable')
 			.bootstrapTable(
 					{
 						method : 'get', // 服务器数据的请求方式 get or post
-						url : prefix + "/list", // 服务器数据的加载地址
+						url : prefix + "/list/" + orderId, // 服务器数据的加载地址
 					//	showRefresh : true,
 					//	showToggle : true,
 					//	showColumns : true,
@@ -33,7 +34,7 @@ function load() {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 								limit: params.limit,
 								offset:params.offset,
-					            orderId:$('#searchName').val()
+					            // orderId:$('#searchName').val()
 					           // username:$('#searchName').val()
 							};
 						},
@@ -76,24 +77,7 @@ function load() {
 																{
 									field : 'updateTime', 
 									title : '更新时间'
-								},
-																{
-									title : '操作',
-									field : 'id',
-									align : 'center',
-									formatter : function(value, row, index) {
-										var e = '<a class="btn btn-primary btn-sm '+s_edit_h+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
-												+ row.id
-												+ '\')"><i class="fa fa-edit"></i></a> ';
-										var d = '<a class="btn btn-warning btn-sm '+s_remove_h+'" href="#" title="删除"  mce_href="#" onclick="remove(\''
-												+ row.id
-												+ '\')"><i class="fa fa-remove"></i></a> ';
-										var f = '<a class="btn btn-success btn-sm" href="#" title="备用"  mce_href="#" onclick="resetPwd(\''
-												+ row.id
-												+ '\')"><i class="fa fa-key"></i></a> ';
-										return e + d ;
-									}
-								} ]
+								}]
 					});
 }
 function reLoad() {

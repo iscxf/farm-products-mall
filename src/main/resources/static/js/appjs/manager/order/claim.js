@@ -12,3 +12,31 @@ function claimProduct(product) {
         content: "/js/appjs/manager/order/claim.html" + str
     });
 }
+
+function saveClaimOrder() {
+    layer.confirm('提交并付款', {
+        btn : [ '付款', '取消' ]
+    }, function() {
+        var quantity = $("#quantityInput").val();
+        $("#quantity").val(quantity);
+        $.ajax({
+            cache : true,
+            type : "POST",
+            url : "/manager/order/save",
+            data : $('#orderForm').serialize(),
+            async : false,
+            error : function(request) {
+                parent.layer.alert("Connection error");
+            },
+            success : function(data) {
+                if (data.code == 0) {
+                    parent.layer.msg("操作成功");
+
+                } else {
+                    parent.layer.alert(data.msg)
+                }
+
+            }
+        });
+    })
+}
