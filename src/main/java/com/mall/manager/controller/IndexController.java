@@ -3,7 +3,10 @@ package com.mall.manager.controller;
 import com.mall.common.controller.BaseController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * 
@@ -19,8 +22,16 @@ import org.springframework.web.bind.annotation.*;
 public class IndexController{
 
 	@GetMapping()
-	String index(){
+	String index(@RequestParam(value="keyword", required=false) String keyword,  Model model){
+		model.addAttribute("keyword", keyword);
 	    return "manager/index/main";
 	}
 
+//	@GetMapping("/search/{keyword}")
+//	String keywordIndex(@PathVariable("keyword") String keyword, Model model){
+//		model.addAttribute("keyword", keyword);
+//		log.info("trace keyword:",keyword);
+//		System.out.println("cssssssssssssssss");
+//		return "manager/index/main";
+//	}
 }

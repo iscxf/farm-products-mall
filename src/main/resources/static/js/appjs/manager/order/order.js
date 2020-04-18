@@ -135,10 +135,11 @@ function load() {
 										var g = '<a class="btn btn-success btn-sm" href="#" title="添加生长情况"  mce_href="#" onclick="addGrowth(\''
 												+ row.id
 												+ '\')">添加生长情况</a> ';
+                                        var h = '<a class="btn btn-warning btn-sm " href="#" mce_href="#" onclick="setVideo(\'' + row.id + '\')">直播地址</a> ';
 										if (row.status == "0") {
-											return e;
+											return e + h;
 										}else if (row.status == "1") {
-                                            return g + d;
+                                            return g + d + h;
                                         }
 									}
 								} ]
@@ -229,6 +230,19 @@ function addGrowth(orderId){
     });
 
 }
+
+function setVideo(orderId){
+    layer.open({
+        type : 2,
+        title : '视频',
+        maxmin : true,
+        shadeClose : false, // 点击遮罩关闭层
+        area : [ '800px', '520px' ],
+        content : ' /manager/order/video/add/' + orderId
+    });
+}
+
+
 
 
 function batchRemove() {

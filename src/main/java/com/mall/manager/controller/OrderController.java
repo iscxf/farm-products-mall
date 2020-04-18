@@ -100,6 +100,23 @@ public class OrderController extends BaseController {
 		model.addAttribute("order", order);
 	    return "manager/order/edit";
 	}
+
+	@GetMapping("/video/get/{id}")
+	String getVideo(@PathVariable("id") Integer id,Model model){
+		OrderDO order = orderService.get(id);
+		model.addAttribute("order", order);
+		model.addAttribute("videoUrl", "http://vjs.zencdn.net/v/oceans.mp4");
+		return "manager/orderProductGrowth/video";
+	}
+
+	@GetMapping("/video/add/{id}")
+	@RequiresPermissions("manager:order:add")
+	String addVideo(@PathVariable("id") Integer id,Model model){
+		OrderDO order = orderService.get(id);
+		model.addAttribute("order", order);
+		model.addAttribute("videoUrl", "http://vjs.zencdn.net/v/oceans.mp4");
+		return "manager/orderProductGrowth/addVideo";
+	}
 	
 	/**
 	 * 保存
@@ -127,7 +144,7 @@ public class OrderController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-	@RequiresPermissions("manager:order:edit")
+//	@RequiresPermissions("manager:order:edit")
 	public Result update( OrderDO order){
 		orderService.update(order);
 		return Result.ok();
@@ -161,7 +178,7 @@ public class OrderController extends BaseController {
 	 */
 	@PostMapping( "/remove")
 	@ResponseBody
-	@RequiresPermissions("manager:order:remove")
+//	@RequiresPermissions("manager:order:remove")
 	public Result remove( Integer id){
 		if(orderService.remove(id)>0){
 		return Result.ok();
@@ -174,7 +191,7 @@ public class OrderController extends BaseController {
 	 */
 	@PostMapping( "/batchRemove")
 	@ResponseBody
-	@RequiresPermissions("manager:order:batchRemove")
+//	@RequiresPermissions("manager:order:batchRemove")
 	public Result remove(@RequestParam("ids[]") Integer[] ids){
 		orderService.batchRemove(ids);
 		return Result.ok();

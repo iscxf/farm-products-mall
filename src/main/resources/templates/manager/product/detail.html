@@ -29,7 +29,7 @@
                         <h3>价格：</h3><h3 class="text-danger" th:text="${productDO.price}"></h3>
                     </div>
                     <div>
-                        <button class="btn btn-danger">申领</button>
+                        <button class="btn btn-danger"><a th:href="@{'/manager/order/claim/'+${productDO.id}}">申领</a></button>
                     </div>
                 </div>
             </div>

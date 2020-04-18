@@ -119,14 +119,15 @@ function load() {
                             var g = '<a class="btn btn-success btn-sm" href="#" title="确认收货"  mce_href="#" onclick="confirmReceipt(\''
                                 + row.id
                                 + '\')">确认收货</a> ';
+                            var h = '<a class="btn btn-warning btn-sm " href="#" mce_href="#" onclick="getVideo(\'' + row.id + '\')">查看直播</a> ';
                             if (row.status == "1") {
-                                return e;
+                                return e + h;
                             }else if(row.status == "2"){
-                                return e + f;
+                                return e + f + h;
                             }else if(row.status == "3"){
-                                return e + g;
+                                return e + g + h;
                             }else{
-                                return "--";
+                                return h;
                             }
                         }
                     } ]
@@ -199,6 +200,17 @@ function confirmReceipt(orderId){
             }
         });
     })
+}
+
+function getVideo(orderId){
+    layer.open({
+        type : 2,
+        title : '视频',
+        maxmin : true,
+        shadeClose : false, // 点击遮罩关闭层
+        area : [ '800px', '520px' ],
+        content : ' /manager/order/video/get/' + orderId
+    });
 }
 
 /**

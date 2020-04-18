@@ -44,6 +44,8 @@ public class OrderDO implements Serializable {
 	private String shipName;
 	//收货人联系电话
 	private String shipPhone;
+	//监控视频地址
+	private String videoUrl;
 	//收货地址
 	private String shipAddress;
 	//备注
