@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" type="text/css" href="/css/manager/style.css">
+
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="id" name="id" th:value="${orderProductGrowth.id}"  type="hidden">
+							<div class="form-group">	
+								<label class="col-sm-3 control-label">订单id：</label>
+								<div class="col-sm-8">
+									<input id="orderId" name="orderId" th:value="${orderProductGrowth.orderId}" class="form-control" type="text" readonly>
+								</div>
+							</div>
+							<input id="productId" name="productId" th:value="${orderProductGrowth.productId}"  type="hidden">
+
+														<div class="form-group">	
+								<label class="col-sm-3 control-label">生长情况描述：</label>
+								<div class="col-sm-8">
+									<textarea id="description" name="description" th:text="${orderProductGrowth.description}" class="form-control" rows="3"></textarea>
+									<!--<input id="description" name="description" th:value="${orderProductGrowth.description}" class="form-control" type="text">-->
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label">展示图片：</label>
+								<div class="col-sm-8">
+									<input id="picture" name="picture" class="form-control" type="hidden" th:value="${orderProductGrowth.picture}">
+									<div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload">
+										<div class="fileinput-preview fileinput-exists thumbnail"
+											 style="max-width: 200px; max-height: 150px;">
+											<img id='picImg' style="width: 100%;height: auto;max-height: 140px;" src="/img/noimage.png"
+												 alt=""/>
+										</div>
+										<div>
+
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/manager/orderProductGrowth/edit.js">
+	</script>
+	<script th:inline="javascript">
+        var picture = /*[[${orderProductGrowth.picture}]]*/ null;
+        $('#picImg').attr("src", picture);
+	</script>
+</body>
+</html>

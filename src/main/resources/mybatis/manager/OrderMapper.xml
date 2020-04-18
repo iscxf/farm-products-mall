@@ -4,12 +4,12 @@
 <mapper namespace="com.mall.manager.dao.OrderDao">
 
 	<select id="get" resultType="com.mall.manager.domain.OrderDO">
-		select `id`,`account_id`,`product_id`,`price`,`quantity`,`order_amount`,`order_time`,`status`,`ship_name`,`ship_phone`,`ship_address`,`remark`,`create_time`,`update_time` from `order` where id = #{value}
+		select * from `order` where id = #{value}
 	</select>
 
 	<select id="list" resultType="com.mall.manager.domain.OrderDO">
-		select `id`,`account_id`,`product_id`,`price`,`quantity`,`order_amount`,`order_time`,`status`,`ship_name`,`ship_phone`,`ship_address`,`remark`,`create_time`,`update_time` from `order`
-        <where>  
+		select * from `order`
+        <where>
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="accountId != null and accountId != ''"> and account_id = #{accountId} </if>
 		  		  <if test="productId != null and productId != ''"> and product_id = #{productId} </if>
@@ -24,7 +24,7 @@
 		  		  <if test="remark != null and remark != ''"> and remark = #{remark} </if>
 		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
 		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
-		  		</where>
+		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
@@ -70,7 +70,8 @@
 			`status`, 
 			`ship_name`, 
 			`ship_phone`, 
-			`ship_address`, 
+			`ship_address`,
+			`video_url`,
 			`remark`
 		)
 		values
@@ -84,7 +85,8 @@
 			#{status}, 
 			#{shipName}, 
 			#{shipPhone}, 
-			#{shipAddress}, 
+			#{shipAddress},
+			#{videoUrl},
 			#{remark}
 		)
 	</insert>
@@ -102,6 +104,7 @@
 			<if test="shipName != null">`ship_name` = #{shipName}, </if>
 			<if test="shipPhone != null">`ship_phone` = #{shipPhone}, </if>
 			<if test="shipAddress != null">`ship_address` = #{shipAddress}, </if>
+			<if test="videoUrl != null">`video_url` = #{videoUrl}, </if>
 			<if test="remark != null">`remark` = #{remark}, </if>
 		</set>
 		where id = #{id}

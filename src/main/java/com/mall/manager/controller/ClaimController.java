@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Date;
+
 /**
  * @classname ClaimController
  * @description TODO
@@ -47,7 +49,7 @@ public class ClaimController extends BaseController {
         orderDO.setPrice(productDO.getPrice());
         orderDO.setQuantity(quantity);
         orderDO.setOrderAmount(productDO.getPrice() * quantity);
-        orderDO.setOrderTime(System.currentTimeMillis());
+        orderDO.setOrderTime(new Date());
         orderDO.setStatus("0");
 
         if (orderService.save(orderDO) > 0) {

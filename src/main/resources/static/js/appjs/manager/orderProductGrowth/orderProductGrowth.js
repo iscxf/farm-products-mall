@@ -1,5 +1,5 @@
 
-var prefix = "/manager/product"
+var prefix = "/manager/orderProductGrowth"
 $(function() {
 	load();
 });
@@ -33,7 +33,7 @@ function load() {
 								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
 								limit: params.limit,
 								offset:params.offset,
-					            name:$('#searchName').val()
+					            orderId:$('#searchName').val()
 					           // username:$('#searchName').val()
 							};
 						},
@@ -44,78 +44,38 @@ function load() {
 						// sortOrder.
 						// 返回false将会终止请求
 						columns : [
-								// {
-								// 	checkbox : true
-								// },
-								// 								{
-								// 	field : 'id',
-								// 	title : ''
-								// },
 																{
-									field : 'name', 
-									title : '产品名称' ,
+									field : 'orderId', 
+									title : '订单id' 
+								},
+																{
+									field : 'productName',
+									title : '商品名称',
 									formatter : function(value, row, index) {
-										var html = '<a  target="_blank" href="/manager/product/open/' + row.id + '">' + row.name + '</a>'
+										var html = '<a  target="_blank" href="/manager/product/open/' + row.productId + '">' + row.productName + '</a>'
 										return html;
 									}
 								},
 																{
-									field : 'title', 
-									title : '标题' ,
-									width:250
+									field : 'description', 
+									title : '生长情况描述' 
 								},
 																{
 									field : 'picture', 
-									title : '商品图片' ,
+									title : '图片' ,
 									formatter : function(value, row, index) {
 										var url = row.picture;
 										var e = '  <img src='+ url + ' class="img-rounded"  style="width:100px;height:80px"> ';
 										return e ;
 									}
-
-								},
-																{
-									field : 'type', 
-									title : '商品类别' 
-								},
-																{
-									field : 'price', 
-									title : '价格' 
-								},
-																{
-									field : 'stock', 
-									title : '库存' 
-								},
-								// 								{
-								// 	field : 'description',
-								// 	title : '商品详情描述'
-								// },
-								// 								{
-								// 	field : 'owner',
-								// 	title : '商品所属负责人（农场）'
-								// },
-																{
-									field : 'farm', 
-									title : '农场名称' 
-								},
-																{
-									field : 'status', 
-									title : '状态',
-									formatter : function(value, row, index) {
-										if (value == '1') {
-											return '<span class="label label-danger">下架</span>';
-										} else if (value == '0') {
-											return '<span class="label label-primary">正常</span>';
-										}
-									}
 								},
 																{
 									field : 'createTime', 
-									title : '创建时间' 
+									title : '创建时间'
 								},
 																{
 									field : 'updateTime', 
-									title : '修改时间' 
+									title : '更新时间'
 								},
 																{
 									title : '操作',

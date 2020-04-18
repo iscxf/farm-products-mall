@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mall.manager.dao.OrderProductGrowthDao">
+
+	<select id="get" resultType="com.mall.manager.domain.OrderProductGrowthDO">
+		select `id`,`order_id`,`product_id`,`description`,`picture`,`create_time`,`update_time` from order_product_growth where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.mall.manager.domain.OrderProductGrowthDO">
+		select `id`,`order_id`,`product_id`,`description`,`picture`,`create_time`,`update_time` from order_product_growth
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+		  		  <if test="productId != null and productId != ''"> and product_id = #{productId} </if>
+		  		  <if test="description != null and description != ''"> and description = #{description} </if>
+		  		  <if test="picture != null and picture != ''"> and picture = #{picture} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from order_product_growth
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
+		  		  <if test="productId != null and productId != ''"> and product_id = #{productId} </if>
+		  		  <if test="description != null and description != ''"> and description = #{description} </if>
+		  		  <if test="picture != null and picture != ''"> and picture = #{picture} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.mall.manager.domain.OrderProductGrowthDO" useGeneratedKeys="true" keyProperty="id">
+		insert into order_product_growth
+		(
+			`order_id`, 
+			`product_id`, 
+			`description`, 
+			`picture`
+		)
+		values
+		(
+			#{orderId}, 
+			#{productId}, 
+			#{description}, 
+			#{picture}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.mall.manager.domain.OrderProductGrowthDO">
+		update order_product_growth 
+		<set>
+			<if test="orderId != null">`order_id` = #{orderId}, </if>
+			<if test="productId != null">`product_id` = #{productId}, </if>
+			<if test="description != null">`description` = #{description}, </if>
+			<if test="picture != null">`picture` = #{picture}, </if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from order_product_growth where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from order_product_growth where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

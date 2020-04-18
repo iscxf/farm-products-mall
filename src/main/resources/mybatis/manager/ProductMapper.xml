@@ -11,7 +11,7 @@
 		select `id`,`name`,`title`,`picture`,`type`,`price`,`stock`,`description`,`owner`,`farm`,`status`,`create_time`,`update_time` from product
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="name != null and name != ''"> and name like concat('%',#{name},'%') </if>
 		  		  <if test="title != null and title != ''"> and title = #{title} </if>
 		  		  <if test="picture != null and picture != ''"> and picture = #{picture} </if>
 		  		  <if test="type != null and type != ''"> and type = #{type} </if>
@@ -41,7 +41,7 @@
 		select count(*) from product
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
-		  		  <if test="name != null and name != ''"> and name = #{name} </if>
+		  		  <if test="name != null and name != ''"> and name like concat('%',#{name},'%') </if>
 		  		  <if test="title != null and title != ''"> and title = #{title} </if>
 		  		  <if test="picture != null and picture != ''"> and picture = #{picture} </if>
 		  		  <if test="type != null and type != ''"> and type = #{type} </if>

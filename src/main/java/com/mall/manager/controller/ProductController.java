@@ -70,6 +70,24 @@ public class ProductController extends BaseController {
 		return pageUtils;
 	}
 
+	/**
+	 * 商城首页的商品查询
+	 * @param params
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/mall/list/{keyword}")
+//	@RequiresPermissions("manager:product:product")
+	public PageUtils mallKeywordList(@PathVariable("keyword") String keyword, @RequestParam Map<String, Object> params){
+		params.put("name",keyword);
+		//查询列表数据 修改测试
+		Query query = new Query(params);
+		List<ProductDO> productList = productService.list(query);
+		int total = productService.count(query);
+		PageUtils pageUtils = new PageUtils(productList, total);
+		return pageUtils;
+	}
+
 	@ResponseBody
 	@GetMapping("/list")
 //	@RequiresPermissions("manager:product:product")
