@@ -144,7 +144,7 @@
                             htmlText += '<div style="height: 23em" class="col-md-3"> <div><a  href="/manager/product/open/' + rows[i].id + '"  >';
                             htmlText += '<img src="'+ rows[i].picture +'"  class="text-center center-block" style="width: 13em;height: 16em" >' ;
                             htmlText += '<div><p class="note" style="text-overflow: ellipsis;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;height: 3em">' + title + '</p></a>';
-                            htmlText += '<div class="text-left"><h5>' + rows[i].farm + '</h5><span>剩余：' + rows[i].stock + '</span><button class="btn-danger pull-right" onclick="claimProduct(' + product + ')">申领</button></div></div>';
+                            htmlText += '<div class="text-left"><h5>' + rows[i].farm + '</h5><span>剩余：' + rows[i].stock + '</span><button class="btn-danger pull-right"><a href="/manager/order/claim/' + rows[i].id + '">申领</a></button></div></div>';
                             htmlText += '</div></div>';
         				}
 
