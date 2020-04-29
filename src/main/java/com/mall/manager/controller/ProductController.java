@@ -1,5 +1,6 @@
 package com.mall.manager.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -105,7 +106,25 @@ public class ProductController extends BaseController {
 		PageUtils pageUtils = new PageUtils(productList, total);
 		return pageUtils;
 	}
-	
+
+	/**
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/mall/hotProductList")
+
+	public PageUtils hotProductList(){
+
+		List<ProductDO> productList = productService.hotProductList();
+
+		PageUtils pageUtils = new PageUtils(productList, 5);
+
+		return pageUtils;
+	}
+
+
+
+
 	@GetMapping("/add")
 	@RequiresPermissions("manager:product:add")
 	String add(){

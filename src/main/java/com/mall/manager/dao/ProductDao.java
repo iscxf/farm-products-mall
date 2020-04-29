@@ -16,7 +16,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ProductDao {
 
+
 	ProductDO get(Integer id);
+
+	List<ProductDO> batchGet(List<Integer> productIds);
 	
 	List<ProductDO> list(Map<String, Object> map);
 	
@@ -29,4 +32,5 @@ public interface ProductDao {
 	int remove(Integer id);
 	
 	int batchRemove(Integer[] ids);
+
 }

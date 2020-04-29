@@ -33,27 +33,7 @@
                         </div>
                     </div>
                     <div id="incomeNum">
-                        <!--<div style="height: 25em" class="col-md-3">-->
-                            <!--<div>-->
-                                <!--<img src="/img/yazi1.jpg"  class="text-center center-block" style="width: 12em;height: 16em" >-->
-                                <!--<div>-->
-                                    <!--<a><h4>5.5－6.2斤的麻鸭，125日纯青头鸭，125日老鸭公母统装</h4></a>-->
-                                    <!--<label>剩余数量：10000</label>-->
-                                    <!--<button class="btn-danger pull-right">申领</button>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div  style="height: 25em" class="col-md-3">-->
-                            <!--<div>-->
-                                <!--<img src="/img/yazi1.jpg"  class="text-center center-block" style="width: 12em;height: 16em" >-->
-                                <!--<div>-->
-                                    <!--<a><h4>养殖基地500亩水库供货充足，可日供货10000羽</h4></a>-->
-                                    <!--<label>剩余数量：10000</label>-->
-                                    <!--<button class="btn-danger pull-right">申领</button>-->
-                                <!--</div>-->
 
-                            <!--</div>-->
-                        <!--</div>-->
 
                     </div>
 
@@ -63,37 +43,9 @@
             <aside class="sidebar">
 
 
-                <div class="widget widget_hot">
+                <div class="widget widget_hot" id="hot_product">
                     <h3>热门商品</h3>
-                    <ul>
-                        <li><a title="" href="/manager/product/open/4" >
-                            <span class="thumbnail"><img class="thumb" data-original="img/yazi1.jpg" src="/img/yazi1.jpg" alt=""  style="display: block;"></span>
-                            <span class="text">小鸭子呀，你在哪里啊！</span>
-                            <span class="muted">销量：1000</span>
-                        </a>
-                        </li>
-                        <li>
-                            <a title="" href="/manager/product/open/4" >
-                                <span class="thumbnail"><img class="thumb" data-original="img/ya2.jpg" src="/img/ya2.jpg" alt=""  style="display: block;"></span>
-                                <span class="text ">小小小鸭子呀，你在哪里啊！</span>
-                                <span class="muted">销量：1000</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a title="" href="/manager/product/open/4" >
-                                <span class="thumbnail"><img class="thumb" data-original="img/ya3.jpg" src="/img/ya3.jpg" alt=""  style="display: block;"></span>
-                                <span class="text ">小小小鸭子呀，你在哪里啊！</span>
-                                <span class="muted">销量：1000</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a title="" href="/manager/product/open/4" >
-                                <span class="thumbnail"><img class="thumb" data-original="img/ya4.jpg" src="/img/ya4.jpg" alt=""  style="display: block;"></span>
-                                <span class="text ">小小小鸭子呀，你在哪里啊！</span>
-                                <span class="muted">销量：1000</span>
-                            </a>
-                        </li>
-                    </ul>
+
                 </div>
 
             </aside>
@@ -118,7 +70,7 @@
 
         $(function(){
         	bindList(0);
-
+            hotProductList();
         });
 
         function nextPage() {
@@ -130,6 +82,7 @@
             if (keyword!=null&&keyword!=undefined&&keyword!=""){
                 url = '/manager/product/mall/list/'+ keyword +'?limit=12&offset=';
             }
+
         	$.ajax({
         			url : url + offset,
         			method : 'get',
@@ -157,6 +110,33 @@
         				}
         			}
         		});
+        }
+
+        function hotProductList() {
+            var url = '/manager/product/mall/hotProductList';
+
+            $.ajax({
+                url : url,
+                method : 'get',
+                dataType : 'json',
+                success : function(data) {
+                    var rows = data.rows;
+                    total = data.total;
+                    var htmlText = "<ul>";
+                    for (i = 0; i < rows.length; i++) {
+                        var title = rows[i].title;
+                        htmlText += '<li><a  href="/manager/product/open/' + rows[i].id + '"  >';
+                        htmlText += '<span class="thumbnail"><img class="thumb" data-original="img/yazi1.jpg" src="'+ rows[i].picture +'"  class="thumb" style="display: block;" >' ;
+                        htmlText += '<span class="text">' + title + '</span><span class="muted">销量：1000</span>';
+                        htmlText += '<span class="text-left">' + rows[i].farm + '<span>剩余：' + rows[i].stock + '</span></span>';
+                        htmlText += '</a></li>';
+                    }
+                    htmlText += "</ul>";
+
+                    $("#hot_product").append(htmlText);
+
+                }
+            });
         }
 	</script>
 

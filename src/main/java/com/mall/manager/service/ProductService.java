@@ -17,6 +17,13 @@ public interface ProductService {
 	ProductDO get(Integer id);
 	
 	List<ProductDO> list(Map<String, Object> map);
+
+	/**
+	 *
+	 * @param
+	 * @return
+	 */
+	List<ProductDO> hotProductList();
 	
 	int count(Map<String, Object> map);
 	

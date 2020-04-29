@@ -1,5 +1,6 @@
 package com.mall.manager.service.impl;
 
+import com.mall.manager.dao.OrderDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,10 @@ import com.mall.manager.service.ProductService;
 public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductDao productDao;
+
+	@Autowired
+	private OrderDao orderDao;
+
 	
 	@Override
 	public ProductDO get(Integer id){
@@ -26,7 +31,15 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductDO> list(Map<String, Object> map){
 		return productDao.list(map);
 	}
-	
+
+	@Override
+	public List<ProductDO> hotProductList() {
+
+		List<Integer> hotProductIds = orderDao.hotProductList();
+
+		return productDao.batchGet(hotProductIds);
+	}
+
 	@Override
 	public int count(Map<String, Object> map){
 		return productDao.count(map);
