@@ -19,6 +19,11 @@ public interface OrderDao {
 	OrderDO get(Integer id);
 	
 	List<OrderDO> list(Map<String, Object> map);
+
+	/**
+	 * @return
+	 */
+	List<Integer> hotProductList();
 	
 	int count(Map<String, Object> map);
 	
