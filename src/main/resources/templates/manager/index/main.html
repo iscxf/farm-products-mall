@@ -97,7 +97,7 @@
                             htmlText += '<div style="height: 23em" class="col-md-3"> <div><a  href="/manager/product/open/' + rows[i].id + '"  >';
                             htmlText += '<img src="'+ rows[i].picture +'"  class="text-center center-block" style="width: 13em;height: 16em" >' ;
                             htmlText += '<div><p class="note" style="text-overflow: ellipsis;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;height: 3em">' + title + '</p></a>';
-                            htmlText += '<div class="text-left"><h5>' + rows[i].farm + '</h5><span>剩余：' + rows[i].stock + '</span><button class="btn-danger pull-right"><a href="/manager/order/claim/' + rows[i].id + '">申领</a></button></div></div>';
+                            htmlText += '<div class="text-left"><h5>' + rows[i].farm + '</h5><span>剩余：' + rows[i].stock + '</span><a class="pull-right" href="/manager/order/claim/' + rows[i].id + '"><span class="fa fa-shopping-cart"></span></span>申领</a></div></div>';
                             htmlText += '</div></div>';
         				}
 
@@ -119,16 +119,15 @@
                 url : url,
                 method : 'get',
                 dataType : 'json',
-                success : function(data) {
-                    var rows = data.rows;
-                    total = data.total;
+                success : function(datas) {
+                    var rows = datas.data;
                     var htmlText = "<ul>";
                     for (i = 0; i < rows.length; i++) {
                         var title = rows[i].title;
-                        htmlText += '<li><a  href="/manager/product/open/' + rows[i].id + '"  >';
-                        htmlText += '<span class="thumbnail"><img class="thumb" data-original="img/yazi1.jpg" src="'+ rows[i].picture +'"  class="thumb" style="display: block;" >' ;
-                        htmlText += '<span class="text">' + title + '</span><span class="muted">销量：1000</span>';
-                        htmlText += '<span class="text-left">' + rows[i].farm + '<span>剩余：' + rows[i].stock + '</span></span>';
+                        htmlText += '<li><a href="/manager/product/open/' + rows[i].id + '"  >';
+                        htmlText += '<span class="thumbnail"><img class="thumb" data-original="'+ rows[i].picture +'" src="'+ rows[i].picture +'"  class="thumb" style="display: block;" ></span>' ;
+                        htmlText += '<span class="text">' + title + '</span>';
+                        htmlText += '<span class="text-left muted">' + rows[i].farm + '</br><span>剩余：' + rows[i].stock + '</span></span>';
                         htmlText += '</a></li>';
                     }
                     htmlText += "</ul>";

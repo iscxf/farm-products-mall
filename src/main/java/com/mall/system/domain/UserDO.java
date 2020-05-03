@@ -69,30 +69,4 @@ public class UserDO implements Serializable {
     private String storeAddress;
 
 
-
-//    //入学日期
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
-//    private Date entryDate;
-//    //头像url
-//    private String picUrl;
-//    //省份
-//    private String province;
-//    //城市
-//    private String city;
-//    //所在学校名称
-//    private String school;
-//    //自我简介
-//    private String introduction;
-//    //等级
-//    private String grade;
-//    //认证标识
-//    private String certificationMark;
-//    //角色
-//    private List<Long> roleIds;
-//    //修改时间
-//    private Date gmtModified;
-//    //创建时间
-//    private Date gmtCreate;
-
-
 }

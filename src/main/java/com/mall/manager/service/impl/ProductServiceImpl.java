@@ -34,9 +34,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<ProductDO> hotProductList() {
-
 		List<Integer> hotProductIds = orderDao.hotProductList();
-
 		return productDao.batchGet(hotProductIds);
 	}
 
