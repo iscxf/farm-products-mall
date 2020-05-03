@@ -37,6 +37,10 @@
 			limit #{offset}, #{limit}
 		</if>
 	</select>
+
+	<select id="hotProductList" resultType="int">
+		SELECT product_id FROM `order` GROUP BY product_id ORDER BY count(*) DESC LIMIT 5
+	</select>
 	
  	<select id="count" resultType="int">
 		select count(*) from `order`
