@@ -20,6 +20,8 @@ public class OrderProductGrowthDO implements Serializable {
 	
 	//
 	private Integer id;
+	//所属负责人（农场）
+	private String owner;
 	//订单id
 	private Integer orderId;
 	//产品id

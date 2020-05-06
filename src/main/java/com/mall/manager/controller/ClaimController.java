@@ -38,29 +38,29 @@ public class ClaimController extends BaseController {
      * @param quantity 申领数量
      * @return
      */
-    @GetMapping("/apply/{id}/{quantity}")
-    public Result applyProduct(@PathVariable("id") Integer id, @PathVariable("quantity") double quantity) {
-        UserDO userInfo = getUser();
-        ProductDO productDO = productService.get(id);
-
-        OrderDO orderDO = new OrderDO();
-        orderDO.setAccountId(Integer.parseInt(userInfo.getUserId().toString()));
-        orderDO.setProductId(productDO.getId());
-        orderDO.setPrice(productDO.getPrice());
-        orderDO.setQuantity(quantity);
-        orderDO.setOrderAmount(productDO.getPrice() * quantity);
-        orderDO.setOrderTime(new Date());
-        orderDO.setStatus("0");
-
-        if (orderService.save(orderDO) > 0) {
-            productDO.setStock(productDO.getStock() - quantity);
-
-            if (productService.update(productDO) > 0)
-                return Result.ok();
-        }
-
-        return Result.error();
-    }
+//    @GetMapping("/apply/{id}/{quantity}")
+//    public Result applyProduct(@PathVariable("id") Integer id, @PathVariable("quantity") double quantity) {
+//        UserDO userInfo = getUser();
+//        ProductDO productDO = productService.get(id);
+//
+//        OrderDO orderDO = new OrderDO();
+//        orderDO.setAccountId(Integer.parseInt(userInfo.getUserId().toString()));
+//        orderDO.setProductId(productDO.getId());
+//        orderDO.setPrice(productDO.getPrice());
+//        orderDO.setQuantity(quantity);
+//        orderDO.setOrderAmount(productDO.getPrice() * quantity);
+//        orderDO.setOrderTime(new Date());
+//        orderDO.setStatus("0");
+//
+//        if (orderService.save(orderDO) > 0) {
+//            productDO.setStock(productDO.getStock() - quantity);
+//
+//            if (productService.update(productDO) > 0)
+//                return Result.ok();
+//        }
+//
+//        return Result.error();
+//    }
 
     /**
      * 付款

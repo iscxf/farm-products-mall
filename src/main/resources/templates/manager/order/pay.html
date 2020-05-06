@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<link rel="icon" href="data:;base64,=">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${order.id}"  type="hidden">
+                        <input id="uuid" name="uuid" th:value="${uuid}"  type="hidden">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">商品id：</label>
+                            <div class="col-sm-8">
+                                <h4 id="productId" name="productId" th:value="${order.productId}" class="form-control" type="text"></h4>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">商品价格：</label>
+                            <div class="col-sm-8">
+                                <h4 id="price" name="price" th:text="${order.price}" class="form-control" type="text"></h4>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">数量：</label>
+                            <div class="col-sm-8">
+                                <h4 id="quantity" name="quantity" th:text="${order.quantity}" class="form-control" type="text"></h4>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">订单总金额：</label>
+                            <div class="col-sm-8">
+                                <h4 id="orderAmount" name="orderAmount" th:text="${order.orderAmount}" class="form-control" type="text"></h4>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">下单时间：</label>
+                            <div class="col-sm-8">
+                                <h4 id="orderTime" name="orderTime" th:text="${order.orderTime}" class="form-control" type="text"></h4>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">收货人：</label>
+                            <div class="col-sm-8">
+                                <h4 id="shipName" name="shipName" th:text="${order.shipName}" class="form-control" type="text"></h4>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">收货人联系电话：</label>
+                            <div class="col-sm-8">
+                                <h4 id="shipPhone" name="shipPhone" th:text="${order.shipPhone}" class="form-control" type="text"></h4>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">收货地址：</label>
+                            <div class="col-sm-8">
+                                <h4 id="shipAddress" name="shipAddress" th:text="${order.shipAddress}" class="form-control" type="text"></h4>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">备注：</label>
+                            <div class="col-sm-8">
+                                <h4 id="remark" name="remark" th:text="${order.remark}" class="form-control" type="text"></h4>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button type="button" class="btn btn-primary" onclick="payForOrder()">付款</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/manager/order/pay.js">
+</script>
+</body>
+</html>

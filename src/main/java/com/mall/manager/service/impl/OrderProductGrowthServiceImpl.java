@@ -45,6 +45,13 @@ public class OrderProductGrowthServiceImpl implements OrderProductGrowthService 
 	
 	@Override
 	public int save(OrderProductGrowthDO orderProductGrowth){
+		//取产品的负责人
+		Integer productId = orderProductGrowth.getProductId();
+		ProductDO productDO = productDao.get(productId);
+		if (null != productDO) {
+			productDao.update(productDO);
+			orderProductGrowth.setOwner(productDO.getOwner());
+		}
 		return orderProductGrowthDao.save(orderProductGrowth);
 	}
 	
