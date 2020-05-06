@@ -7,8 +7,32 @@
 </head>
 <head th:include="include :: header"></head>
 <body>
-<div class="col-sm-6">
-    <img th:src="@{{fileUrl}(fileUrl=${qrCodeUrl})}" style="max-width: 25em;max-height: 30em" >
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12" th:if=" ${qrCodeUrl != null}">
+        <div class="text-center center-block">
+            <img th:src="@{{fileUrl}(fileUrl=${qrCodeUrl})}" style="max-width: 25em;max-height: 30em" >
+        </div>
+        <div class="">
+            <p class="text-center">请用手机扫描付款二维码进行付款！</p>
+            <p class="text-center">付款成功后请刷新页面，请勿重复发起付款！</p>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="text-center center-block" th:if="${qrCodeUrl == null}">
+            <div class="">
+                <span class="fa fa-qrcode fa-2x"></span>
+                <span class="fa fa-qrcode fa-2x"></span>
+            </div>
+            <div class="">
+                <span class="fa fa-qrcode fa-2x"></span>
+                <span class="fa fa-times fa-2x" style="color:red;"></span>
+            </div>
+            <div class="">
+                <p>付款二维码已失效请重新发起！</p>
+                <p>如已经付款请关闭页面，请勿重复提交！</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div th:include="include::footer"></div>

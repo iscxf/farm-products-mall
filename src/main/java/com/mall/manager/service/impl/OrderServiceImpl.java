@@ -62,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
 				expireAfterWrite(15, TimeUnit.MINUTES).build(new CacheLoader<String, Map<String, Object>>() {
 			@Override
 			public Map<String, Object> load(String key) {
-				return null;
+				return new HashMap<>(16);
 			}
 		});
 	}
@@ -81,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public OrderDO getOrderByQrCode(String uuid) {
-		Map<String, Object> orderCache = getCache(ORDER_NAME_SPACE, uuid);
+		Map<String, Object> orderCache = getCache(uuid);
 		if (CollectionUtils.isEmpty(orderCache)){
 			return null;
 		}
@@ -135,13 +135,27 @@ public class OrderServiceImpl implements OrderService {
 		if (null == orderId){
 			return Result.error();
 		}
+		return getUUIDAndCacheByOrderId(orderId);
+	}
+
+	@Override
+	public Result getUUIDAndCacheByOrderId(Integer orderId){
+		OrderDO orderInfo = get(orderId);
+		if (null == orderInfo){
+			log.info("trace order payment failure! 无法获取订单信息！orderId:[{}]", orderId);
+			return Result.error("无法获取订单信息！");
+		}
+		if (!"-1".equals(orderInfo.getStatus())){
+			log.info("trace order payment failure! 请勿重复付款！orderId:[{}]", orderId);
+			return Result.error("请勿重复付款！");
+		}
 		//生成uuid缓存起来
 		String uuid = UUIDUtil.getUUID();
 		Map<String, Object> cacheObject = new HashMap<>(16);
 		cacheObject.put("uuid", uuid);
 		cacheObject.put("orderId", orderId);
 		log.info("trace cacheObject:[{}]",cacheObject);
-		Result cacheResult = putCache(ORDER_NAME_SPACE, uuid, cacheObject);
+		Result cacheResult = putCache(uuid, cacheObject);
 		if (!cacheResult.get("code").equals(0)){
 			return Result.error();
 		}
@@ -166,16 +180,27 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	@Override
 	public Result pay(String uuid) {
-		Map<String, Object> orderCache = getCache(ORDER_NAME_SPACE, uuid);
+		Map<String, Object> orderCache = getCache(uuid);
 		if (CollectionUtils.isEmpty(orderCache)){
-			return Result.error("二维码已过期请重新获取！");
+			log.info("trace order payment failure! 付款二维码已过期请重新获取！uuid:[{}]", uuid);
+			return Result.error("付款二维码已过期请重新获取！");
 		}
 		Integer orderId= (Integer)orderCache.get("orderId");
+		OrderDO orderInfo = get(orderId);
+		if (null == orderInfo){
+			log.info("trace order payment failure! 无法获取订单信息！orderId:[{}]", orderId);
+			return Result.error("无法获取订单信息！");
+		}
+		if (!"-1".equals(orderInfo.getStatus())){
+			log.info("trace order payment failure! 请勿重复付款！orderId:[{}]", orderId);
+			return Result.error("请勿重复付款！");
+		}
 		OrderDO order = new OrderDO();
 		order.setId(orderId);
 		order.setStatus("0");
 		update(order);
-		invalidateCache(ORDER_NAME_SPACE, uuid);
+		invalidateCache(uuid);
+		log.info("trace order payment successful! orderId:[{}]", orderId);
 		return Result.ok();
 	}
 
@@ -183,7 +208,28 @@ public class OrderServiceImpl implements OrderService {
 	public int update(OrderDO order){
 		return orderDao.update(order);
 	}
-	
+
+	@Override
+	public Result cancelOrder(Long userId, Integer orderId) {
+		OrderDO orderInfo = get(orderId);
+		if (null == orderInfo){
+			log.info("trace order payment failure! 无法获取订单信息！orderId:[{}]", orderId);
+			return Result.error("无法获取订单信息！");
+		}
+		if ("-2".equals(orderInfo.getStatus())){
+			log.info("trace order payment failure! 请勿重复操作！orderId:[{}]", orderId);
+			return Result.error("请勿重复操作！");
+		}
+		if (!String.valueOf(orderInfo.getAccountId()).equals(String.valueOf(userId))){
+			log.info("trace order payment failure! 非法操作！orderId:[{}]", orderId);
+			return Result.error("非法操作！");
+		}
+		orderInfo.setStatus("-2");
+		update(orderInfo);
+		log.info("trace cancel order successful! orderId:[{}]", orderId);
+		return Result.ok();
+	}
+
 	@Override
 	public int remove(Integer id){
 		return orderDao.remove(id);
@@ -194,45 +240,43 @@ public class OrderServiceImpl implements OrderService {
 		return orderDao.batchRemove(ids);
 	}
 
-	private Map<String, Object> getCache(String nameSpace, String key) {
+	private Map<String, Object> getCache(String key) {
 		if (StringUtils.isEmpty(key)){
 			return null;
 		}
 		try {
-			String cacheKey = nameSpace.concat(key);
-			Map<String, Object> cacheString = loadingCache.get(cacheKey);
-			if (cacheString.isEmpty()){
-				return null;
-			}else {
-				return cacheString;
-			}
+			String cacheKey = ORDER_NAME_SPACE.concat(key);
+			return loadingCache.get(cacheKey);
 		} catch (ExecutionException e) {
-			log.error("trace checkCache error!nameSpace:[{}], key:[{}], e:", nameSpace, key, e);
+			log.error("trace checkCache ExecutionException error! key:[{}], e:", ORDER_NAME_SPACE.concat(key), e);
+			return null;
+		}catch (Exception e){
+			log.error("trace checkCache error! key:[{}], e:", ORDER_NAME_SPACE.concat(key), e);
 			return null;
 		}
 	}
 
-	private Result putCache(String nameSpace, String key, Map<String, Object> value) {
+	private Result putCache(String key, Map<String, Object> value) {
 		if (StringUtils.isEmpty(key)){
 			return Result.error(-1, "PARAMETER_ERROR");
 		}
 		try {
-			String cacheKey = nameSpace.concat(key);
+			String cacheKey = ORDER_NAME_SPACE.concat(key);
 			loadingCache.put(cacheKey, value);
 		} catch (Exception e) {
-			log.error("trace putCache error!nameSpace:[{}], key:[{}], e:", nameSpace, key, e);
+			log.error("trace putCache error! key:[{}], e:", ORDER_NAME_SPACE.concat(key), e);
 			return Result.error(-2, "SYSTEM_ERROR");
 		}
 		return Result.ok();
 	}
 
 	//清除缓存
-	private void invalidateCache(String nameSpace, String key) {
+	private void invalidateCache(String key) {
 		if (StringUtils.isEmpty(key)){
 			log.error("trace invalidateCache key is null!");
 			return;
 		}
-		loadingCache.invalidate(nameSpace.concat(key));
+		loadingCache.invalidate(ORDER_NAME_SPACE.concat(key));
 	}
 
 

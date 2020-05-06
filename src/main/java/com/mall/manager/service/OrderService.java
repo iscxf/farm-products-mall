@@ -21,6 +21,8 @@ public interface OrderService {
 	String getQrCodeUrl(String uuid);
 
 	OrderDO getOrderByQrCode(String uuid);
+
+	Result getUUIDAndCacheByOrderId(Integer orderId);
 	
 	List<OrderDO> list(Map<String, Object> map);
 	
@@ -31,6 +33,8 @@ public interface OrderService {
 	Result pay(String uuid);
 	
 	int update(OrderDO order);
+
+	Result cancelOrder(Long userId, Integer orderId);
 	
 	int remove(Integer id);
 	

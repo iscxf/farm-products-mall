@@ -151,8 +151,16 @@ public class OrderController extends BaseController {
 	@ResponseBody
 	@GetMapping("/payForOrder/{uuid}")
 	public Result payForOrder(@PathVariable("uuid") String uuid){
-		orderService.pay(uuid);
-		return Result.ok();
+		return orderService.pay(uuid);
+	}
+
+	/**
+	 * 重新生成付款码
+	 */
+	@ResponseBody
+	@GetMapping("/retryPay/{orderId}")
+	public Result retryPay(@PathVariable("orderId") Integer orderId){
+		return orderService.getUUIDAndCacheByOrderId(orderId);
 	}
 
 	/**
@@ -163,6 +171,16 @@ public class OrderController extends BaseController {
 	public Result update( OrderDO order){
 		orderService.update(order);
 		return Result.ok();
+	}
+
+	/**
+	 * 取消订单
+	 */
+	@ResponseBody
+	@RequestMapping("/cancelOrder/{orderId}")
+	public Result cancelOrder(@PathVariable("orderId")Integer orderId) {
+		Long userId = getUserId();
+		return orderService.cancelOrder(userId, orderId);
 	}
 
 	/**

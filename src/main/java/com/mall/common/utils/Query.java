@@ -15,7 +15,7 @@ public class Query extends LinkedHashMap<String, Object> {
 
 	public Query(Map<String, Object> params) {
 		this.putAll(params);
-		// 分页参数 这个分页是必填,这个热门的不用分页的,等会去掉
+		// 分页参数
 		this.offset = Integer.parseInt(params.get("offset").toString());
 		this.limit = Integer.parseInt(params.get("limit").toString());
 		this.put("offset", offset);

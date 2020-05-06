@@ -93,7 +93,11 @@ function load() {
                         field : 'status',
                         title : '状态',
                         formatter : function(value, row, index) {
-                            if (value == '0') {
+                            if (value == '-2') {
+                                return '<span class="label label-default">已取消</span>';
+                            } else if (value == '-1') {
+                                return '<span class="label label-primary">待付款</span>';
+                            } else if (value == '0') {
                                 return '<span class="label label-primary">已付款待确认</span>';
                             } else if (value == '1') {
                                 return '<span class="label label-warning">待收获</span>';
@@ -111,7 +115,11 @@ function load() {
                         field : 'id',
                         align : 'center',
                         formatter : function(value, row, index) {
-                            var e = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="编辑" onclick="getGrowth(\''
+                            var c = '<a class="btn btn-warning btn-sm" href="#" mce_href="#" title="取消订单" onclick="cancelOrder(\''
+                                + row.id + '\')">取消订单</a> ';
+                            var d = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="付款" onclick="retryPay(\''
+                                + row.id + '\')">付款</a> ';
+                            var e = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" title="查看订单产品状况" onclick="getGrowth(\''
                                 + row.id + '\')">查看订单产品状况</a> ';
                             var f = '<a class="btn btn-success btn-sm" href="#" title="收获"  mce_href="#" onclick="harvest(\''
                                 + row.id
@@ -120,14 +128,20 @@ function load() {
                                 + row.id
                                 + '\')">确认收货</a> ';
                             var h = '<a class="btn btn-warning btn-sm " href="#" mce_href="#" onclick="getVideo(\'' + row.id + '\')">查看直播</a> ';
-                            if (row.status == "1") {
+                            if (row.status == "-1") {
+                                return c + d;
+                            }else if (row.status == "0") {
+                                return "--";
+                            }else if(row.status == "1"){
                                 return e + h;
                             }else if(row.status == "2"){
-                                return e + f + h;
+                                return e + f + g + h;
                             }else if(row.status == "3"){
-                                return e + g + h;
-                            }else{
-                                return h;
+                                return e + g;
+                            }else if(row.status == "4"){
+                                return e;
+                            }else {
+                                return "--";
                             }
                         }
                     } ]
@@ -135,6 +149,49 @@ function load() {
 }
 function reLoad() {
     $('#myOrderTable').bootstrapTable('refresh');
+}
+
+function retryPay(orderId) {
+    $.ajax({
+        url : "/manager/order/retryPay/" + orderId,
+        type : "GET",
+        success : function(data) {
+            if (data.code==0) {
+                pay(data.uuid);
+            }else{
+                layer.msg(data.msg);
+            }
+        }
+    });
+}
+
+function pay(uuid) {
+    layer.open({
+        type : 2,
+        title : '付款',
+        maxmin : true,
+        shadeClose : false, // 点击遮罩关闭层
+        area : [ '400px', '420px' ],
+        content :  '/manager/order/payCode/' + uuid // iframe的url
+    });
+}
+
+function cancelOrder(orderId) {
+    layer.confirm('确定取消改订单吗？', {
+        btn : [ '确定', '取消' ]
+    }, function() {
+        $.ajax({
+            url : "/manager/order/cancelOrder/" + orderId,
+            type : "GET",
+            success : function(data) {
+                if (data.code==0) {
+                    reLoad();
+                }else{
+                    layer.msg(data.msg);
+                }
+            }
+        });
+    });
 }
 
 function change_title(data) {

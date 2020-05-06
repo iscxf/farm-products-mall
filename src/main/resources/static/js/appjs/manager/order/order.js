@@ -87,7 +87,11 @@ function load() {
 									field : 'status', 
 									title : '状态' ,
 									formatter : function(value, row, index) {
-										if (value == '0') {
+                                        if (value == '-2') {
+                                            return '<span class="label label-default">已取消</span>';
+                                        } else if (value == '-1') {
+                                            return '<span class="label label-primary">待付款</span>';
+                                        } else if (value == '0') {
 											return '<span class="label label-primary">已付款待确认</span>';
 										} else if (value == '1') {
                                             return '<span class="label label-warning">待收获</span>';
@@ -131,16 +135,17 @@ function load() {
 									formatter : function(value, row, index) {
 										var e = '<a class="btn btn-primary btn-sm" href="#" mce_href="#" onclick="changeStatus(\'' + row.id + '\',1)">通过审核</a> ';
 										var d = '<a class="btn btn-warning btn-sm " href="#" mce_href="#" onclick="changeStatus(\'' + row.id + '\',2)">通知收获</a> ';
-                                        var f = '<a class="btn btn-warning btn-sm " href="#" mce_href="#" onclick="changeStatus(\'' + row.id + '\',2)">通知收获</a> ';
 										var g = '<a class="btn btn-success btn-sm" href="#" title="添加生长情况"  mce_href="#" onclick="addGrowth(\''
 												+ row.id
 												+ '\')">添加生长情况</a> ';
                                         var h = '<a class="btn btn-warning btn-sm " href="#" mce_href="#" onclick="setVideo(\'' + row.id + '\')">直播地址</a> ';
-										if (row.status == "0") {
-											return e + h;
+                                        if (row.status == "0") {
+											return e;
 										}else if (row.status == "1") {
                                             return g + d + h;
-                                        }
+                                        }else {
+                                            return "--";
+										}
 									}
 								} ]
 					});
@@ -241,8 +246,6 @@ function setVideo(orderId){
         content : ' /manager/order/video/add/' + orderId
     });
 }
-
-
 
 
 function batchRemove() {

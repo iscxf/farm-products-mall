@@ -14,7 +14,7 @@ function payForOrder() {
             },
             success : function(data) {
                 if (data.code == 0) {
-                    parent.layer.msg("付款成功" + data);
+                    parent.layer.msg("付款成功");
                 } else {
                     parent.layer.alert(data.msg)
                 }
@@ -23,3 +23,4 @@ function payForOrder() {
         });
     })
 }
+
