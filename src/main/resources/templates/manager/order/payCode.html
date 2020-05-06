@@ -8,6 +8,11 @@
 <head th:include="include :: header"></head>
 <body>
 <div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="text-center center-block">
+                <img src="/img/farm_mall_logo.jpg" class="img-responsive" style="margin-top: 1em;width: 8em;height: 8em">
+        </div>
+    </div>
     <div class="col-sm-12" th:if=" ${qrCodeUrl != null}">
         <div class="text-center center-block">
             <img th:src="@{{fileUrl}(fileUrl=${qrCodeUrl})}" style="max-width: 25em;max-height: 30em" >
