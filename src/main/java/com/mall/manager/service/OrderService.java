@@ -1,5 +1,7 @@
 package com.mall.manager.service;
 
+import com.mall.common.utils.Result;
+import com.mall.manager.domain.OrderArg;
 import com.mall.manager.domain.OrderDO;
 
 import java.util.List;
@@ -15,12 +17,18 @@ import java.util.Map;
 public interface OrderService {
 	
 	OrderDO get(Integer id);
+
+	String getQrCodeUrl(String uuid);
+
+	OrderDO getOrderByQrCode(String uuid);
 	
 	List<OrderDO> list(Map<String, Object> map);
 	
 	int count(Map<String, Object> map);
-	
-	int save(OrderDO order);
+
+	Result save(OrderArg arg);
+
+	Result pay(String uuid);
 	
 	int update(OrderDO order);
 	

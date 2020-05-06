@@ -58,7 +58,12 @@ public class OrderProductGrowthController extends BaseController {
 	@GetMapping("/list")
 	public PageUtils list(@RequestParam Map<String, Object> params){
 		//查询列表数据
-        Query query = new Query(params);
+		List<Long> roles = getUserRole();
+		Long userId = getUserId();
+		if (!roles.contains(1L)) {
+			params.put("owner", userId.toString());
+		}
+		Query query = new Query(params);
 		List<OrderProductGrowthDO> orderProductGrowthList = orderProductGrowthService.list(query);
 		int total = orderProductGrowthService.count(query);
 		PageUtils pageUtils = new PageUtils(orderProductGrowthList, total);

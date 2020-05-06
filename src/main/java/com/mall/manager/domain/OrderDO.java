@@ -22,6 +22,8 @@ public class OrderDO implements Serializable {
 	private Integer id;
 	//购买客户id
 	private Integer accountId;
+	//所属负责人（农场）
+	private String owner;
 	//购买客户名称
 	private String accountName;
 	//商品id

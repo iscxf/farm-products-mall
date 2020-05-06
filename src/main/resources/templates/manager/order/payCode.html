@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>付款</title>
+    <link rel="icon" href="data:;base64,=">
+</head>
+<head th:include="include :: header"></head>
+<body>
+<div class="col-sm-6">
+    <img th:src="@{{fileUrl}(fileUrl=${qrCodeUrl})}" style="max-width: 25em;max-height: 30em" >
+</div>
+
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/manager/order/pay.js"></script>
+
+</body>
+</html>

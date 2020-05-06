@@ -11,6 +11,7 @@
 		select * from `order`
         <where>
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+			      <if test="owner != null and owner != ''"> and owner = #{owner} </if>
 		  		  <if test="accountId != null and accountId != ''"> and account_id = #{accountId} </if>
 		  		  <if test="productId != null and productId != ''"> and product_id = #{productId} </if>
 		  		  <if test="price != null and price != ''"> and price = #{price} </if>
@@ -46,6 +47,7 @@
 		select count(*) from `order`
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+			      <if test="owner != null and owner != ''"> and owner = #{owner} </if>
 		  		  <if test="accountId != null and accountId != ''"> and account_id = #{accountId} </if>
 		  		  <if test="productId != null and productId != ''"> and product_id = #{productId} </if>
 		  		  <if test="price != null and price != ''"> and price = #{price} </if>
@@ -62,9 +64,10 @@
 		  		</where>
 	</select>
 	 
-	<insert id="save" parameterType="com.mall.manager.domain.OrderDO" useGeneratedKeys="true" keyProperty="id">
+	<insert id="save" parameterType="com.mall.manager.domain.OrderDO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
 		insert into `order`
 		(
+		    `owner`,
 			`account_id`, 
 			`product_id`, 
 			`price`, 
@@ -80,7 +83,8 @@
 		)
 		values
 		(
-			#{accountId}, 
+			#{owner},
+			#{accountId},
 			#{productId}, 
 			#{price}, 
 			#{quantity}, 

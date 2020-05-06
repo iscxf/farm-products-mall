@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <meta charset="utf-8">
 <head th:include="manager/index/include_header::header"></head>
@@ -26,10 +26,10 @@
                    <h4 th:text="${productDO.title}"></h4>
 
                     <div style="margin-top: 2em">
-                        <h3>价格：</h3><h3 class="text-danger" th:text="${productDO.price}"></h3>
+                        <h3 class="" style="display: inline-block">价格：</h3><h3 class="text-danger" style="display: inline-block" th:text="${productDO.price}"></h3>
                     </div>
-                    <div>
-                        <button class="btn btn-danger"><a th:href="@{'/manager/order/claim/'+${productDO.id}}">申领</a></button>
+                    <div class="col-md-10 ">
+                        <a th:href="@{'/manager/order/claim/'+${productDO.id}}"><button class="btn btn-default btn-lg btn-block pull-right" style="margin: 5em"><span class="fa fa-shopping-cart"></span>申领</button></a>
                     </div>
                 </div>
             </div>

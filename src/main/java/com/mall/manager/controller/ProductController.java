@@ -112,14 +112,11 @@ public class ProductController extends BaseController {
 	 */
 	@ResponseBody
 	@GetMapping("/mall/hotProductList")
-
-	public PageUtils hotProductList(){
-
+	public Result hotProductList(){
 		List<ProductDO> productList = productService.hotProductList();
-
-		PageUtils pageUtils = new PageUtils(productList, 5);
-
-		return pageUtils;
+		Map<String, Object> param = new HashMap<>(16);
+		param.put("data", productList);
+		return Result.ok(param);
 	}
 
 

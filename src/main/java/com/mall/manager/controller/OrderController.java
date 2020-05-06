@@ -50,12 +50,16 @@ public class OrderController extends BaseController {
 	@GetMapping("/list")
 //	@RequiresPermissions("manager:order:order")
 	public PageUtils list(@RequestParam Map<String, Object> params){
-		//查询列表数据  dfdsgfdg
-        Query query = new Query(params);
+		//查询列表数据
+		List<Long> roles = getUserRole();
+		Long userId = getUserId();
+		if (!roles.contains(1L)) {
+			params.put("owner", userId.toString());
+		}
+		Query query = new Query(params);
 		List<OrderDO> orderList = orderService.list(query);
 		int total = orderService.count(query);
-		PageUtils pageUtils = new PageUtils(orderList, total);
-		return pageUtils;
+		return new PageUtils(orderList, total);
 	}
 
 	@ResponseBody
@@ -72,13 +76,11 @@ public class OrderController extends BaseController {
 	}
 	
 	@GetMapping("/add")
-//	@RequiresPermissions("manager:order:add")
 	String add(){
 	    return "manager/order/add";
 	}
 
 	@GetMapping("/claim/{id}")
-//	@RequiresPermissions("manager:order:add")
 	String claim(@PathVariable("id") Integer productId,Model model){
 		ProductDO productDO = productService.get(productId);
 		if (null == productDO){
@@ -94,7 +96,6 @@ public class OrderController extends BaseController {
 	}
 
 	@GetMapping("/edit/{id}")
-//	@RequiresPermissions("manager:order:edit")
 	String edit(@PathVariable("id") Integer id,Model model){
 		OrderDO order = orderService.get(id);
 		model.addAttribute("order", order);
@@ -119,32 +120,46 @@ public class OrderController extends BaseController {
 	}
 	
 	/**
-	 * 保存
+	 * 保存订单同时返回uuid
 	 */
 	@ResponseBody
 	@PostMapping("/save")
-//	@RequiresPermissions("manager:order:add")
-	public Result save( OrderArg arg){
+	public Result save(OrderArg arg){
 		arg.setShipAddress(arg.getCity() + arg.getProvince() + arg.getDistrict() + arg.getAddress());
 		arg.setAccountId(Integer.valueOf(getUserId().toString()));
-		ProductDO productDO = productService.get(arg.getProductId());
-		arg.setOrderAmount(productDO.getPrice() * arg.getQuantity());
-		OrderDO order = new OrderDO();
-		BeanUtils.copyProperties(arg, order);
-		order.setOrderTime(new Date());
-		order.setPrice(productDO.getPrice());
-		order.setStatus("0");
-		if(orderService.save(order)>0){
-			return Result.ok();
-		}
-		return Result.error();
+		return orderService.save(arg);
 	}
+
+	@GetMapping("/payCode/{uuid}")
+	String getPayCode(@PathVariable("uuid") String uuid, Model model){
+		String qrCodeUrl = orderService.getQrCodeUrl(uuid);
+		model.addAttribute("qrCodeUrl", qrCodeUrl);
+		return "manager/order/payCode";
+	}
+
+	@GetMapping("/pay/{uuid}")
+	String getPay(@PathVariable("uuid") String uuid, Model model){
+		OrderDO order = orderService.getOrderByQrCode(uuid);
+		model.addAttribute("order", order);
+		model.addAttribute("uuid", uuid);
+		return "manager/order/pay";
+	}
+
+	/**
+	 * 付款
+	 */
+	@ResponseBody
+	@GetMapping("/payForOrder/{uuid}")
+	public Result payForOrder(@PathVariable("uuid") String uuid){
+		orderService.pay(uuid);
+		return Result.ok();
+	}
+
 	/**
 	 * 修改
 	 */
 	@ResponseBody
 	@RequestMapping("/update")
-//	@RequiresPermissions("manager:order:edit")
 	public Result update( OrderDO order){
 		orderService.update(order);
 		return Result.ok();
@@ -166,7 +181,6 @@ public class OrderController extends BaseController {
 		return Result.ok();
 	}
 	@GetMapping("/harvest/{id}")
-//	@RequiresPermissions("manager:order:edit")
 	String harvest(@PathVariable("id") Integer id,Model model){
 		OrderDO order = orderService.get(id);
 		model.addAttribute("order", order);
@@ -178,7 +192,6 @@ public class OrderController extends BaseController {
 	 */
 	@PostMapping( "/remove")
 	@ResponseBody
-//	@RequiresPermissions("manager:order:remove")
 	public Result remove( Integer id){
 		if(orderService.remove(id)>0){
 		return Result.ok();
@@ -191,7 +204,6 @@ public class OrderController extends BaseController {
 	 */
 	@PostMapping( "/batchRemove")
 	@ResponseBody
-//	@RequiresPermissions("manager:order:batchRemove")
 	public Result remove(@RequestParam("ids[]") Integer[] ids){
 		orderService.batchRemove(ids);
 		return Result.ok();

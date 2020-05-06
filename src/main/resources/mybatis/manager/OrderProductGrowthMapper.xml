@@ -11,6 +11,7 @@
 		select `id`,`order_id`,`product_id`,`description`,`picture`,`create_time`,`update_time` from order_product_growth
         <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+			      <if test="owner != null and owner != ''"> and owner = #{owner} </if>
 		  		  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
 		  		  <if test="productId != null and productId != ''"> and product_id = #{productId} </if>
 		  		  <if test="description != null and description != ''"> and description = #{description} </if>
@@ -35,6 +36,7 @@
 		select count(*) from order_product_growth
 		 <where>  
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+			      <if test="owner != null and owner != ''"> and owner = #{owner} </if>
 		  		  <if test="orderId != null and orderId != ''"> and order_id = #{orderId} </if>
 		  		  <if test="productId != null and productId != ''"> and product_id = #{productId} </if>
 		  		  <if test="description != null and description != ''"> and description = #{description} </if>
@@ -47,13 +49,15 @@
 	<insert id="save" parameterType="com.mall.manager.domain.OrderProductGrowthDO" useGeneratedKeys="true" keyProperty="id">
 		insert into order_product_growth
 		(
-			`order_id`, 
+			`owner`,
+			`order_id`,
 			`product_id`, 
 			`description`, 
 			`picture`
 		)
 		values
 		(
+		    #{owner},
 			#{orderId}, 
 			#{productId}, 
 			#{description}, 
