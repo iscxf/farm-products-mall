@@ -4,6 +4,7 @@ import com.mall.common.controller.BaseController;
 import com.mall.common.utils.PageUtils;
 import com.mall.common.utils.Query;
 import com.mall.common.utils.Result;
+import com.mall.common.utils.StringUtils;
 import com.mall.manager.domain.OrderArg;
 import com.mall.manager.domain.OrderDO;
 import com.mall.manager.domain.ProductDO;
@@ -12,13 +13,11 @@ import com.mall.manager.service.ProductService;
 import com.mall.system.domain.UserDO;
 import com.mall.system.service.UserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -41,14 +40,17 @@ public class OrderController extends BaseController {
 	private UserService userService;
 	
 	@GetMapping()
-//	@RequiresPermissions("manager:order:order")
 	String Order(){
 	    return "manager/order/order";
+	}
+
+	@GetMapping("/paySuccess")
+	String paySuccess(){
+		return "manager/order/paySuccess";
 	}
 	
 	@ResponseBody
 	@GetMapping("/list")
-//	@RequiresPermissions("manager:order:order")
 	public PageUtils list(@RequestParam Map<String, Object> params){
 		//查询列表数据
 		List<Long> roles = getUserRole();
@@ -66,7 +68,7 @@ public class OrderController extends BaseController {
 	@GetMapping("/userOrder")
 	public PageUtils userOrder(@RequestParam Map<String, Object> params){
 		Long userId = getUserId();
-		params.put("account_id", Integer.valueOf(userId.toString()));
+		params.put("accountId", Integer.valueOf(userId.toString()));
 		//查询列表数据
 		Query query = new Query(params);
 		List<OrderDO> orderList = orderService.list(query);
@@ -131,9 +133,12 @@ public class OrderController extends BaseController {
 	}
 
 	@GetMapping("/payCode/{uuid}")
-	String getPayCode(@PathVariable("uuid") String uuid, Model model){
-		String qrCodeUrl = orderService.getQrCodeUrl(uuid);
-		model.addAttribute("qrCodeUrl", qrCodeUrl);
+	String getPayCode(@PathVariable(value = "uuid",required = false) String uuid, Model model){
+		if (!StringUtils.isEmpty(uuid)) {
+			String qrCodeUrl = orderService.getQrCodeUrl(uuid);
+			model.addAttribute("qrCodeUrl", qrCodeUrl);
+			model.addAttribute("uuid", uuid);
+		}
 		return "manager/order/payCode";
 	}
 
@@ -152,6 +157,15 @@ public class OrderController extends BaseController {
 	@GetMapping("/payForOrder/{uuid}")
 	public Result payForOrder(@PathVariable("uuid") String uuid){
 		return orderService.pay(uuid);
+	}
+
+	/**
+	 * 轮询检查付款状态
+	 */
+	@ResponseBody
+	@GetMapping("/checkPaymentStatus/{uuid}")
+	public Result checkPaymentStatus(@PathVariable("uuid") String uuid){
+		return orderService.checkPaymentStatus(uuid);
 	}
 
 	/**

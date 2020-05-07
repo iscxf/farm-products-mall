@@ -127,11 +127,9 @@ public class OrderServiceImpl implements OrderService {
 		productDO.setStock(productDO.getStock() - order.getQuantity());
 		productDao.update(productDO);
 		order.setOwner(productDO.getOwner());
-		log.info("trace order info:[{}]",order);
 		Integer orderResult = orderDao.save(order);
-		log.info("trace order orderResult:[{}]",orderResult);
 		Integer orderId = order.getId();
-		log.info("trace order after:[{}]",order);
+		log.info("trace order info:[{}]",order);
 		if (null == orderId){
 			return Result.error();
 		}
@@ -202,6 +200,27 @@ public class OrderServiceImpl implements OrderService {
 		invalidateCache(uuid);
 		log.info("trace order payment successful! orderId:[{}]", orderId);
 		return Result.ok();
+	}
+
+	@Override
+	public Result checkPaymentStatus(String uuid) {
+		int count = 10;
+		while (count > 0) {
+			Map<String, Object> orderCache = getCache(uuid);
+			if (CollectionUtils.isEmpty(orderCache)) {
+				//缓存被清除有可能是付款或者已过期，返回成功刷新页面
+				log.info("trace checkPaymentStatus successful!uuid:[{}]", uuid);
+				return Result.ok();
+			}
+			try {
+				Thread.sleep(2000);
+			}catch (Exception e){
+				//
+			}
+			count--;
+		}
+		log.info("trace checkPaymentStatus failure!uuid:[{}]", uuid);
+		return Result.error();
 	}
 
 	@Override

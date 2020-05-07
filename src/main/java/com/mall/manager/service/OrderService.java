@@ -31,6 +31,8 @@ public interface OrderService {
 	Result save(OrderArg arg);
 
 	Result pay(String uuid);
+
+	Result checkPaymentStatus(String uuid);
 	
 	int update(OrderDO order);
 

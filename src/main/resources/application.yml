@@ -2,7 +2,7 @@ server:
   session-timeout: 10000
   port: 8086
 
-host: 10.22.0.12:8086
+host: 106.75.148.161:8086
 
 spring:
   thymeleaf:

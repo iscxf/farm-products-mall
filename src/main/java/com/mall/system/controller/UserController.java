@@ -180,8 +180,6 @@ public class UserController extends BaseController {
 		return "yes";
 	}
 
-
-//	@RequiresPermissions("sys:user:edit")
 	@Log("更新用户")
 	@PostMapping("/update")
 	@ResponseBody
@@ -194,7 +192,6 @@ public class UserController extends BaseController {
 
 
 	//个人更新也会走此接口，不设权限
-//	@RequiresPermissions("sys:user:edit")
 	@Log("更新用户")
 	@PostMapping("/updatePersonal")
 	@ResponseBody
@@ -236,7 +233,7 @@ public class UserController extends BaseController {
 		return !userService.exit(params);
 	}
 
-//	@RequiresPermissions("sys:user:resetPwd")
+
 	@Log("请求更改用户密码")
 	@GetMapping("/resetPwd/{id}")
 	String resetPwd(@PathVariable("id") Long userId, Model model) {
@@ -290,7 +287,6 @@ public class UserController extends BaseController {
 	String personal(Model model) {
 		UserDO userDO  = userService.get(getUserId());
 		model.addAttribute("user",userDO);
-		model.addAttribute("hobbyList",dictService.getHobbyList(userDO));
 		model.addAttribute("sexList",dictService.getSexList());
 		return prefix + "/personal";
 	}
@@ -300,24 +296,16 @@ public class UserController extends BaseController {
 	String userCenter(Model model) {
 		UserDO userDO  = userService.get(getUserId());
 		model.addAttribute("user",userDO);
-//		model.addAttribute("hobbyList",dictService.getHobbyList(userDO));
 		model.addAttribute("sexList",dictService.getSexList());
 		return prefix + "/user_center";
 	}
 
-	@ResponseBody
-	@PostMapping("/uploadImg")
-	Result uploadImg(@RequestParam("avatar_file") MultipartFile file, String avatar_data, HttpServletRequest request) {
-		Map<String, Object> result = new HashMap<>();
-		try {
-			result = userService.updatePersonalImg(file, avatar_data, getUserId());
-		} catch (Exception e) {
-			return Result.error("更新图像失败！");
-		}
-		if(result!=null && result.size()>0){
-			return Result.ok(result);
-		}else {
-			return Result.error("更新图像失败！");
-		}
+	@GetMapping("/usercenter/{type}")
+	String userCenterBytype(@PathVariable(value = "type",required = false) String type,Model model) {
+		UserDO userDO  = userService.get(getUserId());
+		model.addAttribute("type",type);
+		model.addAttribute("user",userDO);
+		model.addAttribute("sexList",dictService.getSexList());
+		return prefix + "/user_center";
 	}
 }

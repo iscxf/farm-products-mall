@@ -8,12 +8,8 @@
 <head th:include="include :: header"></head>
 <body>
 <div class="wrapper wrapper-content ">
-    <div class="col-sm-12">
-        <div class="text-center center-block">
-                <img src="/img/farm_mall_logo.jpg" class="img-responsive" style="margin-top: 1em;width: 8em;height: 8em">
-        </div>
-    </div>
     <div class="col-sm-12" th:if=" ${qrCodeUrl != null}">
+        <input id="uuid" name="uuid" th:value="${uuid}"  type="hidden">
         <div class="text-center center-block">
             <img th:src="@{{fileUrl}(fileUrl=${qrCodeUrl})}" style="max-width: 25em;max-height: 30em" >
         </div>
@@ -42,6 +38,40 @@
 
 <div th:include="include::footer"></div>
 <script type="text/javascript" src="/js/appjs/manager/order/pay.js"></script>
+<script>
+    $(function() {
+        checkPaymentStatus();
+    });
 
+    function checkPaymentStatus() {
+        var uuid = $("#uuid").val();
+        if (uuid != null && uuid != "" ) {
+
+            $.ajax({
+                cache: true,
+                async : true,
+                type: "GET",
+                url: "/manager/order/checkPaymentStatus/" + uuid,
+                beforeSend:function(XMLHttpRequest){
+                    layer.closeAll('loading');
+                },
+                error: function (request) {
+                    parent.layer.alert("Connection error");
+                },
+                success: function (data) {
+                    if (data.code == 0) {
+                        window.location.href = "/sys/user/usercenter/myOrder";
+                        var index = parent.layer.getFrameIndex(window.name); // 获取窗口索引
+                        parent.layer.close(index);
+                        parent.$('body').append('<a href="/sys/user/usercenter/myOrder"><span id="orderLink"></span></a>');
+                        parent.$("#orderLink").click();
+                    } else {
+                        checkPaymentStatus();
+                    }
+                }
+            });
+        }
+    }
+</script>
 </body>
 </html>

@@ -23,7 +23,7 @@
                             <li onclick="change_title(this)" class="active"><a style="border: 0px solid transparent !important;" href="#basic_info" data-toggle="tab">基本资料</a></li>
                             <!--<li><a href="#photo_info" data-toggle="tab">头像修改</a></li>-->
                             <li onclick="change_title(this)"><a style="border: 0px solid transparent !important;" href="#pwd_info" data-toggle="tab">修改密码</a></li>
-                            <li onclick="change_title(this)"><a style="border: 0px solid transparent !important;" href="#my_order" data-toggle="tab">我的订单</a></li>
+                            <li onclick="change_title(this)"><a id="orderTabLink" style="border: 0px solid transparent !important;" href="#my_order" data-toggle="tab">我的订单</a></li>
                         </ul>
                     </div>
                     <hr style="height:1px;border:none;border-top:1px solid lightgray;" />
@@ -188,5 +188,14 @@
 <script type="text/javascript" src="/js/plugins/layer/laydate/laydate.js" ></script>
 <script type="text/javascript" src="/js/plugins/distpicker/distpicker.data.min.js"></script>
 <script type="text/javascript" src="/js/plugins/distpicker/distpicker.min.js"></script>
+<script th:inline="javascript">
+    $(function() {
+        var type = /*[[${type}]]*/ null;
+        console.log("type:"+type);
+        if (type === "myOrder"){
+            $('#orderTabLink').click();
+        }
+    });
+</script>
 </body>
 </html>
